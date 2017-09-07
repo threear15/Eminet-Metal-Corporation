@@ -5,6 +5,8 @@ if(isset($_SESSION['uid'])){
 }
 elseif(isset($_SESSION['uid2'])){
   header("location:code.php");
+}elseif(isset($_SESSION['gmail'])){
+  header("location:gmail_activate.php");
 }
  
 ?>

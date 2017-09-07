@@ -220,7 +220,7 @@ if(isset($_SESSION['uid'])){
                   </div>
                   <div class="col-md-4">
                     <label for="m_number">Mobile Number</label>
-                    <input type="text" name="m_number" class="form-control">
+                    <input type="text" name="m_number" class="form-control" placeholder="Ex: 9123456789">
                   </div>
                 </div>
                 <div class="row">
@@ -251,25 +251,7 @@ if(isset($_SESSION['uid'])){
                     <input type="password" name="password34" class="form-control">
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <i style="color:red;">In case you forgot your password, please input unique question and answer you only know...</i>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-4">
-                    <label for="u_question">Unique Question</label>
-                    <input type="text" name="u_question" class="form-control">
-                  </div>
-                  <div class="col-md-4">
-                    <label for="u_answer">Unique Answer</label>
-                    <input type="text" name="u_answer" class="form-control">
-                  </div>
-                  <div class="col-md-4">
-                    <label for="re_u_answer">Re-type Unique Answer</label>
-                    <input type="text" name="re_u_answer" class="form-control">
-                  </div>
-                </div>
+                
                 <div>&nbsp;</div>
                 <div class="row">
                   <div class="col-md-12">

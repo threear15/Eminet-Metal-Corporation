@@ -1,6 +1,7 @@
 <?php
 include "connection.php";
 include 'PHPMailerAutoload.php';
+session_start();
 $f_name = $_POST["f_name1"];
 $pending = $_POST["pending"];
 $m_name = $_POST["m_name"];
@@ -14,9 +15,7 @@ $city = $_POST["city"];
 $h_address= $_POST["h_address"];
 $g_mail = $_POST["g-mail"];
 $password = $_POST["password34"];
-$u_question = $_POST["u_question"];
-$u_answer = $_POST["u_answer"];
-$re_u_answer = $_POST["re_u_answer"];
+
 $name1 = "/^[A-Z][a-zA-z ]+$/";
 $emailValidation = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9]+(\.[a-z]{2,4})$/";
 $number = "/^[0-9]+$/";
@@ -38,12 +37,11 @@ $mailer = new PHPMailer();
 			$mailer->Password = '981872946035860x';
 			$mailer->From = 'admin@noreply.com'; 
 			$mailer->FromName = 'Eminent';
-			$mailer->Body =  'Hello '.$f_name.'<a href="#">Click here...</a> EMC'.rand(11111,999999);
+			$mailer->Body =  'Hello '.$f_name.'<a href="http://localhost/emcfinal/gmail_activate.php">Click Me to Activate Your Account</a> EMC'.rand(11111,999999);
 			$mailer->Subject = 'Emient';
 			$mailer->AddAddress($g_mail);
 if(empty($f_name) || empty($m_name) || empty($l_name) || empty($age) || empty($gender) || empty($m_number) || empty($tel_number) ||
-	empty($brgy) || empty($city) || empty($h_address) || empty($g_mail) || empty($password) || empty($u_question) || empty($u_answer) ||
-	empty($re_u_answer)){
+	empty($brgy) || empty($city) || empty($h_address) || empty($g_mail) || empty($password)){
 	echo "
 			<script>
 		        swal({
@@ -144,7 +142,7 @@ if(!preg_match($number,$m_number)){
 		";
 		exit();
 }
-if(!strlen($m_number) == 11){
+if(!strlen($m_number) == 10){
 		echo "
 			<script>
 		        swal({
@@ -165,19 +163,6 @@ if(!preg_match($emailValidation,$g_mail)){
 		        swal({
 		          title: 'Warning!!!',
 		          text: '$g_mail was Invalid!!!',
-		          type: 'warning',
-		          confirmButtonClass: 'btn-warning',
-		          confirmButtonText: 'Ok'
-		        });
-			</script>
-		";
-		exit();
-}if($u_answer != $re_u_answer){
-		echo "
-			<script>
-		        swal({
-		          title: 'Warning!!!',
-		          text: 'Unique Answer Not Match!!!',
 		          type: 'warning',
 		          confirmButtonClass: 'btn-warning',
 		          confirmButtonText: 'Ok'
@@ -212,6 +197,7 @@ if(strlen($password) < 9){
 	$sql = "SELECT id FROM user WHERE gmail = '$g_mail' LIMIT 1";
 	$check_query = mysqli_query($con,$sql);
 	$count_email = mysqli_num_rows($check_query);
+			
 	if($count_email > 0){
 		echo"
 		<script>
@@ -227,11 +213,17 @@ if(strlen($password) < 9){
 		exit();
 	}else{
 		$password = md5($password);
-		$sql = "INSERT INTO `user` (`id`, `status`, `f_name`, `m_name`, `l_name`, `age`, `gender`, `m_number`, `tel_number`, `brgy`, `city`, `h_address`, `gmail`, `password`,`unique_question`,`unique_answer`) 
-		VALUES (NULL, '$pending', '$f_name', '$m_name', '$l_name', '$age', '$gender', '$m_number', '$tel_number', '$brgy', '$city', '$h_address', '$g_mail', '$password','$u_question','$u_answer')";
+		$gmail_session = $g_mail;
+		$pending_account = $pending;
+		$sql = "INSERT INTO `user` (`id`, `status`, `f_name`, `m_name`, `l_name`, `age`, `gender`, `m_number`, `tel_number`, `brgy`, `city`, `h_address`, `gmail`, `password`) 
+		VALUES (NULL, '$pending', '$f_name', '$m_name', '$l_name', '$age', '$gender', '$m_number', '$tel_number', '$brgy', '$city', '$h_address', '$g_mail', '$password')";
 		$run_query = mysqli_query($con,$sql);
-
+		
+			
 		if($run_query){
+			$_SESSION['gmail'] = $gmail_session;
+			$_SESSION['approved'] = $pending_account;
+			
 			echo "
 			<script>
 			setTimeout(function() {
@@ -249,6 +241,7 @@ if(strlen($password) < 9){
 			</script>
 		";
 		}
+		
 	}
 	}
 

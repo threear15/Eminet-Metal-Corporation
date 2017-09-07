@@ -61,6 +61,9 @@ $("#send_message1").click(function(event){
 	$('#myModal1').on('hidden.bs.modal', function () {
  		location.reload();
 })
+	$('#myactivate').on('hidden.bs.modal', function () {
+ 		location.reload();
+})
 	$("#submitnumber3").click(function(event){
 		event.preventDefault();
 		var as_number = $("#as_number").val();

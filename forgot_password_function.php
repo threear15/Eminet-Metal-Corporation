@@ -146,12 +146,12 @@ if(empty($true_number) || empty($true_gmail)){
 			</script>
 			";
 	exit();
-}if(strlen($true_number) != 11){
+}if(strlen($true_number) != 10){
 		echo "
 			<script>
 		        swal({
 		          title: 'Warning!!!',
-		          text: 'Number must be 11 digits!!!',
+		          text: 'Number must be 10 digits!!!',
 		          type: 'warning',
 		          confirmButtonClass: 'btn-warning',
 		          confirmButtonText: 'Ok'
