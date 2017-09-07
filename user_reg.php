@@ -210,8 +210,13 @@ if(isset($_SESSION['uid'])){
                     <input type="text" name="age" class="form-control">
                   </div>
                   <div class="col-md-4">
-                    <label for="gender">Gender</label>
-                    <input type="text" name="gender" class="form-control">
+                    <label for="age">Gender</label>
+                    <select class="selectpicker form-control" name="gender">
+                  <option >Male</option>
+                  <option>Female</option>
+                 
+                </select>
+
                   </div>
                   <div class="col-md-4">
                     <label for="m_number">Mobile Number</label>

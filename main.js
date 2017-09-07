@@ -55,5 +55,45 @@ $("#send_message1").click(function(event){
 		}
 	})
 })
+	$("#close").click(function(){
+		location.reload();
+	})
+	$('#myModal1').on('hidden.bs.modal', function () {
+ 		location.reload();
+})
+	$("#submitnumber3").click(function(event){
+		event.preventDefault();
+		var as_number = $("#as_number").val();
+		var true_number = $("#true_number").val();
+		var true_gmail = $("#true_gmail").val();
+		$.ajax({
+			url : "forgot_password_function.php",
+			method : "POST",
+			data : {usertrue:1,as_number:as_number,true_number:true_number,true_gmail:true_gmail},
+			success : function(data){
+				$("#msgforgot").html(data);
+			}
+		})
+	})
+	$("#refresh").click(function(){
+		location.reload();
+	})
+	$("#submitnumber45").click(function(event){
+		event.preventDefault();
+		var code = $("#code").val();
+		var new_pass = $("#new_pass").val();
+		$.ajax({
+			url : "forgot_password_function.php",
+			method : "POST",
+			data : {update:1,code:code,new_pass:new_pass},
+			success : function(data){
+				$("#msgupdate").html(data);
+			}
+		})
+	})
+	$('#myModalverify').modal({
+    backdrop: 'static',
+    keyboard: false
+})
 });
 

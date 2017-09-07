@@ -128,8 +128,8 @@ elseif(isset($_SESSION['uid2'])){
 			</div>				
 		</div>
 
-		<div id="myModal1" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+		<div id="myModal1" class="modal fade" role="dialog" >
+  <div class="modal-dialog" >
 <div class="modal-body">
          <div class="row">
           <div class="col-sm-12">
@@ -137,7 +137,7 @@ elseif(isset($_SESSION['uid2'])){
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h3 class="panel-title">
-                  Login <a href="#" class="fa fa-fw fa-times" data-dismiss="modal" style="float:right;"></a>
+                  Login <a href="#" id="close" class="fa fa-fw fa-times" data-dismiss="modal" style="float:right;"></a>
                 </h3>
               </div>
               <div class="panel-body">
@@ -207,18 +207,7 @@ elseif(isset($_SESSION['uid2'])){
                         <input type="gmail" class="form-control" id="gmailforgot"  placeholder="Gmail">
                       </div>
                     </div>
-                    <div class="form-group">
-                      <div class="input-group input-group-lg">
-                        <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
-                        <input type="text" class="form-control" id="u_q_forgot"  placeholder="Unique Question">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <div class="input-group input-group-lg">
-                        <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
-                        <input type="text" class="form-control" id="u_a_forgot"  placeholder="Unique Answer">
-                      </div>
-                    </div>
+                    
                     <input class="btn btn-lg btn-primary btn-block" type="submit" id="submit" value="Submit" data-toggle="modal" data-target="#mymodalsubmit">
                   </fieldset>
                

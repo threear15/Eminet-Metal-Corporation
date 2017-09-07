@@ -3,6 +3,7 @@ session_start();
 if(!isset($_SESSION['uid2'])){
 	header("location:index.php");
 }
+
 ?>
 <html>
 <head>
@@ -35,43 +36,71 @@ if(!isset($_SESSION['uid2'])){
 		<script scrc="js/bootstrap.min.js"></script>
 		<script src="main.js"></script>
 </head>
-<body>
-<center><div class="row" style="width:500px;padding-top:80px;">
-	<div class="col-md-12">
-		<div class="panel panel-primary">
-			<div class="panel-heading"></div>
-			<div class="panel-body">
-				<div class="row">
-					<div class="col-md-12">
-						<input type="text" class="form-control" placeholder="Current G-mail Address">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<input type="text" class="form-control" placeholder="Paste your code here">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<input type="password" class="form-control" placeholder="Type your New Password">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<input type="password" class="form-control" placeholder="Re-Type your New Password">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<a href="logout2.php">Success</a>
-					</div>
-				</div>
-			</div>
-			<div class="panel-heading"></div>
-		</div>
-	</div>
+<body id="bodyref">
+
+<?php 
+echo "Copy this code <i class='fa fa-fw fa-arrow-circle-right'></i>"."&nbsp;&nbsp;&nbsp;".$_SESSION['number2'] ."&nbsp;And <a href='verify.php'>Click Here</a>"; 
+
+?>
+<div id="msgupdate"></div>
+	<div id="msgforgot"></div>
+<div id="myModalverify" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+<div class="modal-body">
+
+         <div class="row">
+          <div class="col-sm-12">
+            <div id="msglog"></div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  Forgot Password
+                </h3>
+              </div>
+              <div class="panel-body">
+                
+                  <fieldset>
+                    <div class="form-group">
+                      <div class="input-group input-group-lg">
+                        <span class="input-group-addon"><i class="fa fa-fw fa-code"></i></span>
+                        <input type="gmail" class="form-control" id="code"  placeholder="Paste your code here...">
+                      </div>
+                      <div class="input-group input-group-lg">
+                        <span class="input-group-addon"><i class="fa fa-fw fa-password"></i></span>
+                        <input type="gmail" class="form-control" id="new_pass"  placeholder="New Password">
+                      </div>
+                    </div>
+                    
+                    <input class="btn btn-lg btn-primary btn-block" type="submit" id="submitnumber45" value="Submit">
+                  </fieldset>
+               
+               
+                <div class="credits">
+                  <!-- 
+                    All the links in the footer should remain intact. 
+                    You can delete the links only if you purchased the pro version.
+                    Licensing information: https://bootstrapmade.com/license/
+                    Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Flexor
+                  -->
+                  <a href="#">Eminent Metal Corporation</a>
+                  <a href="logout2.php" style="float:right;">logout<a>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- Modal content-->
+
+
+  </div>
 </div>
-</center>
+<script type="text/javascript">
+    $(window).on('load',function(){
+        $('#myModal').modal('show');
+    });
+</script>
 <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>

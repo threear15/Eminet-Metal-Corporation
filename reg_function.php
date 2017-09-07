@@ -20,8 +20,7 @@ $re_u_answer = $_POST["re_u_answer"];
 $name1 = "/^[A-Z][a-zA-z ]+$/";
 $emailValidation = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9]+(\.[a-z]{2,4})$/";
 $number = "/^[0-9]+$/";
-$male = 'Male';
-$female = 'Female';
+
 $mailer = new PHPMailer();
 			$mailer->IsSMTP();
 			$mailer->Host = 'smtp.gmail.com:465'; 
@@ -130,48 +129,7 @@ if($age <= 20){
 		";
 		exit();
 }
-if(!preg_match($name1,$gender)){
-		echo "
-			<script>
-		        swal({
-		          title: 'Warning!!!',
-		          text: '$gender was Invalid!!!Type Capital Letter First!!!',
-		          type: 'warning',
-		          confirmButtonClass: 'btn-warning',
-		          confirmButtonText: 'Ok'
-		        });
-			</script>
-		";
-		exit();
-}
-if($gender != 'Male'){
-	echo "
-			<script>
-		        swal({
-		          title: 'Warning!!!',
-		          text: '$gender was Invalid!!!Type Male or Female Only !!!',
-		          type: 'warning',
-		          confirmButtonClass: 'btn-warning',
-		          confirmButtonText: 'Ok'
-		        });
-			</script>
-		";
-		exit();
-}
-if($gender != 'Female'){
-	echo "
-			<script>
-		        swal({
-		          title: 'Warning!!!',
-		          text: '$gender was Invalid!!!Type Male or Female Only !!!',
-		          type: 'warning',
-		          confirmButtonClass: 'btn-warning',
-		          confirmButtonText: 'Ok'
-		        });
-			</script>
-		";
-		exit();
-}
+
 if(!preg_match($number,$m_number)){
 		echo "
 			<script>
