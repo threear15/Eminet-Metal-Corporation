@@ -43,9 +43,7 @@ if(!isset($_SESSION['gmail'])){
 
 	</head>
 	<body>
-		<?php 
-echo "hi".$_SESSION['approved'];
-    ?>
+		<input type="hidden" class="form-control" id = "approved" value="Approved" disabled>
     <div class="container-fluid">
       
       <div class="row">
@@ -53,7 +51,7 @@ echo "hi".$_SESSION['approved'];
         <div class="col-md-4"></div>
       
         <div class="col-md-4">
-          <input type="text" class="form-control" value="<?php 
+          <input type="hidden" class="form-control" id = "gmail_update"value="<?php 
      echo "".$_SESSION['gmail'];
 
     ?>" disabled>
@@ -65,8 +63,9 @@ echo "hi".$_SESSION['approved'];
       
   </div>
   <div><br></div>
-<center><div class="btn btn-success">Activate My Account</div></center>
-    <a href="logout_gmail.php">logout</a>
+<center><div class="btn btn-success" id="activate">Activate My Account</div></center>
+   
+    <div id="msgstatus"></div>
 <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>

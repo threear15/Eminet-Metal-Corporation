@@ -1,8 +1,20 @@
 $(document).ready(function() {
+	cat();
+
 	$('.nav-trigger').click(function() {
 		$('.side-nav').toggleClass('visible');
 	
 	});
+function cat(){
+	$.ajax({
+		url : "action.php",
+		method : "POST",
+		data : {category1:1},
+		success	: function(data){
+			$("#get_category1").html(data);
+		}
+	})
+}
 
 $("#signup_button").click(function(event){
 		event.preventDefault();
@@ -19,10 +31,12 @@ $("#login").click(function(event){
 	event.preventDefault();
 	var gmail = $("#gmail").val();
 	var password12  = $("#password12").val();
+	var status  = $("#status").val();
+	var pending  = $("#pending").val();
 	$.ajax({
 		url : "login.php",
 		method : "POST",
-		data : {userlogin:1,usergmail:gmail,userpass12:password12},
+		data : {userlogin:1,usergmail:gmail,userpass12:password12,status:status,pending:pending},
 		success : function(data){
 			$("#msg").html(data);
 
@@ -98,5 +112,18 @@ $("#send_message1").click(function(event){
     backdrop: 'static',
     keyboard: false
 })
+	$("#activate").click(function(event){
+		event.preventDefault();
+		var approved = $("#approved").val();
+		$.ajax({
+			url : "forgot_password_function.php",
+			method : "POST",
+			data : {update_status:1,approved:approved},
+			success : function(data){
+				$("#msgstatus").html(data);
+			} 
+		}) 
+	})
+	
 });
 

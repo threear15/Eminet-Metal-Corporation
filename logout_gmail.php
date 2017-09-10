@@ -5,7 +5,7 @@ session_start();
 
 unset($_SESSION['gmail']);
 
-unset($_SESSION['pending']);
+unset($_SESSION['approved']);
 
 header("location:index.php");
 ?>

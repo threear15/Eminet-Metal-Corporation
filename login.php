@@ -5,7 +5,9 @@ session_start();
 if(isset($_POST['userlogin'])){
 	$gmail = mysqli_real_escape_string($con,$_POST['usergmail']);
 	$password12 = md5($_POST['userpass12']);
-	$sql = "SELECT * FROM user WHERE gmail = '$gmail' and password = '$password12'";
+	$status = mysqli_real_escape_string($con,$_POST['status']);
+	
+	$sql = "SELECT * FROM user WHERE gmail = '$gmail' and password = '$password12' and status = '$status'";
 	$run_query = mysqli_query($con,$sql);
 	$count = mysqli_num_rows($run_query);
 	$gmail = $_POST['usergmail'];
@@ -24,7 +26,8 @@ $password12 = $_POST['userpass12'];
 
 		";
 		exit();
-	}else{
+	}
+	else{
 
 if($count == 1){
 		$row = mysqli_fetch_array($run_query);
@@ -63,8 +66,11 @@ if($count == 1){
 		";
 		exit();
 	}
+	
+
 
 	}
+
 	
 		
 }

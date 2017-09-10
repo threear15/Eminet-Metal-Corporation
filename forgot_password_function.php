@@ -280,4 +280,29 @@ if(isset($_POST["update"])){
 	}
 
 }
+if(isset($_POST['update_status'])){
+	$approved = $_POST['approved'];
+	$sql = "UPDATE user SET status = '$approved'";
+	$run_query = mysqli_query($con,$sql);
+	if($run_query){
+		echo "
+		<script>
+			
+        
+        setTimeout(function() {
+        swal({
+            title: 'Done',
+            text: 'Your Account has been Activate',
+            type: 'success'
+        }, function() {
+            window.location = 'logout_gmail.php';
+        });
+    }, 1000);
+			</script>
+			
+			";
+	}else{
+		
+	}
+}
 ?>

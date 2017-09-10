@@ -6,7 +6,21 @@ if(isset($_SESSION['uid'])){
 elseif(isset($_SESSION['uid2'])){
   header("location:code.php");
 }elseif(isset($_SESSION['gmail'])){
-  header("location:gmail_activate.php");
+  echo"
+    <script>
+      
+        
+        setTimeout(function() {
+        swal({
+            title: 'You need to activate your Account',
+            text: '',
+            type: 'error'
+        }, function() {
+            window.location = 'https://accounts.google.com/ServiceLogin/signinchooser?service=mail&passive=true&rm=false&continue=https%3A%2F%2Fmail.google.com%2Fmail%2F&ss=1&scc=1&ltmpl=default&ltmplcache=2&emr=1&osid=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin';
+        });
+    }, 1000);
+      </script>
+  ";
 }
  
 ?>
@@ -75,21 +89,12 @@ elseif(isset($_SESSION['uid2'])){
 							<span>Home</span>
 						</a>
 					</li>
-					<li class="dropdown">
-						<a href="#" class="dropbtn">
-
-							<span><i class="fa fa-envelope"></i></span>
-							<span>Products</span>
-
-						</a>
-						<ul>
-						<li class="dropdown-content">
-   						 <a href="tryit_183.htm#">Link 1</a>
-   						 <a href="tryit_183.htm#">Link 2</a>
-    						<a href="tryit_183.htm#">Link 3</a>
-  						</li>
-						</ul>
-					</li>
+					<li>
+            <a href="product.php">
+              <span><i class="fa fa-user"></i></span>
+              <span>Product</span>
+            </a>
+          </li>
 					<li>
 						<a href="#">
 							<span><i class="fa fa-bar-chart"></i></span>
@@ -149,6 +154,8 @@ elseif(isset($_SESSION['uid2'])){
                       <div class="input-group input-group-lg">
                         <span class="input-group-addon"><i class="fa fa-fw fa-envelope"></i></span>
                         <input type="gmail" class="form-control" id="gmail"  placeholder="Email">
+                        <input type="hidden" class="form-control" id="status" value="Approved">
+
                       </div>
                     </div>
                     <div class="form-group">

@@ -142,6 +142,8 @@ if(isset($_SESSION['uid'])){
                       <div class="input-group input-group-lg">
                         <span class="input-group-addon"><i class="fa fa-fw fa-envelope"></i></span>
                         <input type="text" class="form-control" name="email" id="gmail" placeholder="Email">
+
+                        <input type="hidden" class="form-control" id="status" value="Approved">
                       </div>
                     </div>
                     <div class="form-group">

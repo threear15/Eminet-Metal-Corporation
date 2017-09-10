@@ -179,20 +179,7 @@ if(strlen($password) < 9){
 		";
 		exit();
 	}
-	if(!$mailer->send()) {
-			echo "
-			<script>
-		        swal({
-		          title: 'Registration Failed!!',
-		          text: 'Please Check your connection!!!',
-		          type: 'warning',
-		          confirmButtonClass: 'btn-warning',
-		          confirmButtonText: 'Ok'
-		        });
-			</script>
-		";
-		exit();
-			} 
+	
 
 	$sql = "SELECT id FROM user WHERE gmail = '$g_mail' LIMIT 1";
 	$check_query = mysqli_query($con,$sql);
@@ -212,6 +199,20 @@ if(strlen($password) < 9){
 		";
 		exit();
 	}else{
+		if(!$mailer->send()) {
+			echo "
+			<script>
+		        swal({
+		          title: 'Registration Failed!!',
+		          text: 'Please Check your connection!!!',
+		          type: 'warning',
+		          confirmButtonClass: 'btn-warning',
+		          confirmButtonText: 'Ok'
+		        });
+			</script>
+		";
+		exit();
+			} 
 		$password = md5($password);
 		$gmail_session = $g_mail;
 		$pending_account = $pending;
@@ -223,6 +224,7 @@ if(strlen($password) < 9){
 		if($run_query){
 			$_SESSION['gmail'] = $gmail_session;
 			$_SESSION['approved'] = $pending_account;
+			
 			
 			echo "
 			<script>
