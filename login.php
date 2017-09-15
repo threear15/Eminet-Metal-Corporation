@@ -74,5 +74,26 @@ if($count == 1){
 	
 		
 }
+if(isset($_POST['addproduct'])){
+	$p_id = $_POST['proid'];
+	$sql = "SELECT * FROM product WHERE product_id ='$p_id'";
+	$run_query = mysqli_query($con,$sql);
+	$count = mysqli_num_rows($run_query);
+	if($count >0){
+		echo "
+	<script>
+		        swal({
+		          title: 'Warning!!!',
+		          text: 'You Need To Sign First!!!',
+		          type: 'warning',
+		          confirmButtonClass: 'btn-warning',
+		          confirmButtonText: 'Okay'
+		        });
+			</script>
+	";
+
+	} 
+	
+}
 
 ?>

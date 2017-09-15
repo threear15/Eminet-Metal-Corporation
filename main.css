@@ -381,7 +381,6 @@ body {
 
 @media screen and (min-width: 100px) {
 	#go{
-		padding-left: 30px; 
-
+		padding-left: 120px; 
 	}
 }

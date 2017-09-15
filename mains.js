@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	cat();
 
+
 	$('.nav-trigger').click(function() {
 		$('.side-nav').toggleClass('visible');
 	
@@ -16,6 +17,7 @@ function cat(){
 	})
 }
 
+
 $("#signup_button").click(function(event){
 		event.preventDefault();
 		$.ajax({
@@ -24,6 +26,19 @@ $("#signup_button").click(function(event){
 			data	: $("form").serialize(),
 			success	: function(data){
 				$("#msg").html(data);
+			}
+		})
+	})
+$("body").delegate(".addme","click",function(event){
+		event.preventDefault();
+		var p_id = $(this).attr('pid');
+		var color = $("#color").val();
+		$.ajax({
+			url : "../action.php",
+			method : "POST",
+			data : {addproduct:1,p_id:p_id,color:color},
+			success : function(data){
+				$("#msgadd").html(data);
 			}
 		})
 	})
@@ -124,8 +139,18 @@ $("#send_message1").click(function(event){
 			} 
 		}) 
 	})
-		$("#add").click(function(event){
-		alert(0);
+		$("body").delegate("#add","click",function(event){
+		event.preventDefault();
+		var p_id = $(this).attr('pid');
+		$.ajax({
+			url		: "login.php",
+			method	: "POST",
+			data	: {addproduct:1,proid:p_id},
+			success	: function(data){
+				$("#products_msg").html(data);
+				
+			}
+		})
 	})
 });
 

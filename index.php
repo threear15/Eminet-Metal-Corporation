@@ -193,6 +193,42 @@ elseif(isset($_SESSION['uid2'])){
 
   </div>
 </div>
+<div id="myModalwidar" class="modal fade" role="dialog" >
+  <div class="modal-dialog" >
+<div class="modal-body">
+         <div class="row">
+          <div class="col-sm-12">
+            <div id="msglog"></div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  Login <a href="#" id="close" class="fa fa-fw fa-times" data-dismiss="modal" style="float:right;"></a>
+                </h3>
+              </div>
+              <div class="panel-body">
+                
+                 <div>Widar</div>
+               
+                <p class="m-b-0 m-t">Not signed up? <a href="user_reg.php">Sign up here</a>.</p>
+                <div class="credits">
+                  <!-- 
+                    All the links in the footer should remain intact. 
+                    You can delete the links only if you purchased the pro version.
+                    Licensing information: https://bootstrapmade.com/license/
+                    Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Flexor
+                  -->
+                  <a href="#">Eminent Metal Corporation</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- Modal content-->
+
+
+  </div>
+</div>
 <div id="msg"></div>
 
 <div id="myModalforgot" class="modal fade" role="dialog">
@@ -283,7 +319,7 @@ elseif(isset($_SESSION['uid2'])){
                     You can delete the links only if you purchased the pro version.
                     Licensing information: https://bootstrapmade.com/license/
                     Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Flexor
-                  -->
+               
                   <a href="#">Eminent Metal Corporation</a>
                 </div>
               </div>
@@ -291,7 +327,7 @@ elseif(isset($_SESSION['uid2'])){
           </div>
         </div>
       </div>
-    <!-- Modal content-->
+   
 
 
   </div>
@@ -368,7 +404,7 @@ elseif(isset($_SESSION['uid2'])){
                 <h4 class="item-title">
                   <a href="#">Wood Screw</a>
                 </h4>
-                <a href="#" class="btn btn-more" style="color:#ff8000;"><i class="fa fa-plus"></i>Read more</a>
+                <a href="#" class="btn btn-more" style="color:#ff8000;" data-toggle="modal" data-target="#myModalwidar"><i class="fa fa-plus"></i>Read more</a>
                 <del>&#8369;800.00</del>&nbsp;<b>&#8369;500.00</b>
               </div>
             </div>

@@ -13,7 +13,7 @@ if(isset($_SESSION['uid'])){
       <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Eminent Metal Corporation</title>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
-    <link
+             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> 
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="dist/sweetalert.js"></script>
@@ -40,7 +40,8 @@ if(isset($_SESSION['uid'])){
     <script src="js/jquerynew.min.js"></script>
     <script src="js/jquery.min.js"></script>
     <script scrc="js/bootstrap.min.js"></script>
-    <script src="main.js"></script>
+
+    <script src="mains.js"></script>
 
 
     
@@ -124,11 +125,12 @@ if(isset($_SESSION['uid'])){
     <div class="main-content">
       <div class="title">
         &nbsp;<div id="msg12"></div>
-        
+
+              
       </div>        
     </div>
 
-         <div id="slide">
+         <div id="slide" class="table-responsive">
           
        <div class="row">
         <div class="col-md-12">
@@ -139,11 +141,11 @@ if(isset($_SESSION['uid'])){
                           <tr>
                             <th style="background:#233245;color:white">Product Code</th>
                             <th style="background:#233245;color:white">Product Name</th>
-                            
                             <th style="background:#233245;color:white">Product Image</th>
+                            <th style="background:#233245;color:white">Product HeadStyle</th>
                             <th style="background:#233245;color:white">Product Size</th>
+                            <th style="background:#233245;color:white">Product Pieces</th>
                             <th style="background:#233245;color:white">Product Price</th>
-                            <th style="background:#233245;color:white">Product Color</th>
                             <th style="background:#233245;color:white">Product Status</th>
                             <th style="background:#233245;color:white">Action</th>
                           </tr>
@@ -151,7 +153,7 @@ if(isset($_SESSION['uid'])){
                     <tbody id='shop'>
                     <?php 
                           include "connection.php";
-
+                          
                           $product_query = "SELECT * FROM product";
                           $run_query = mysqli_query($con,$product_query);
                           if(mysqli_num_rows($run_query) > 0){
@@ -159,17 +161,23 @@ if(isset($_SESSION['uid'])){
                               $p_id = $row['product_id'];
                               $p_code = $row['product_code'];
                               $p_name = $row['product_name'];
+                              $p_headstyle = $row['product_headstyle'];
+                              $p_pieces = $row['product_pieces'];
                               $p_image = $row['product_image'];
                               $p_size = $row['product_size'];
                               $p_price = $row['product_price'];
-                              $p_color = $row['product_color'];
+                              
+                              
+                           
+                              
+
                               if($row['product_stocks'] <= 0){
                               
-                                  $status = '<button class=" btn btn-danger btn-xs"disabled>Out of Stocks</button>';
+                                  $status = '<button class=" btn btn-danger btn-xs"disabled >Out of Stocks</button>';
                                
                               }else{
                                 
-                                  $status = '<button class=" btn btn-success"disabled>In Stocks</button>';
+                                  $status = '<button class=" btn btn-success btn-xs"disabled>In Stocks</button>';
                                 
                               }
                               if($row['product_stocks'] <= 0){
@@ -178,34 +186,75 @@ if(isset($_SESSION['uid'])){
                                
                               }else{
                                 
-                                  $add = '<button class="btn btn-success">add to cart</button>';
+                                  $add = '<button class="btn btn-success" >add to cart</button>';
                                 
                               }
 
                             echo "
                               <tr>
-                            <td style='adding-top:40px;padding-left:10px;'><button class='btn btn-success' disabled>$p_code</button></td>
-                                              <td style='padding-top:40px;padding-left:10px;'><button class='btn btn-success' disabled>$p_name</button></td>
-                                              
-                                              <td><img src='images/product/$p_image' style='width:115px;height:100px;'></td>
-                                              <td style='padding-top:40px;padding-left:10px;'><select class='btn btn-primary btn-xs'><option>$p_size</option><option>4 by 10</option></select></td>
-                                              <td style='padding-top:40px;padding-left:20px;'>&#8369;$p_price.00</td>
-                                              <td style='padding-top:40px;padding-left:15px;'><select class='btn btn-primary btn-xs' >$p_color</select></td>
-                                             <td>$status</td>
-                                              <td style='padding-top:40px;padding-left:15px;'>$add</td>
+                                <td style='padding-top:40px;padding-left:20px;'><b>$p_code</b></td>
+                                <td style='padding-top:40px;padding-left:20px;'><b>$p_name</b></td>                                            
+                                <td><img src='images/standard/$p_image' style='width:115px;height:100px;'></td>
+                                <td style='padding-top:40px;padding-left:20px;'><b>$p_headstyle</b></td> 
+                                <td style='padding-top:40px;padding-left:20px;'>$p_size</td>
+                                <td style='padding-top:40px;padding-left:20px;'><b>$p_pieces</b></td>
+                                <td style='padding-top:40px;padding-left:20px;'><b>&#8369;$p_price.00</b></td>
+                                <td style='padding-left:20px;padding-top:40px;'>$status</i></td>
+                                <td style='padding-top:40px;padding-left:15px;' pid='$p_id' p_name ='$p_name' id='add'> $add</td>
                            </tr>
+                         
                             ";
 
                               }
                                   }
                                 ?>
+                                <div><?php 
+                                  include "connection.php";
+                                  
+                                  $sql = "SELECT MONTHNAME(date1) as month, YEAR(date1) as year, DAY(date1) as day, LAST_DAY(date1) as last, SUM(product_price) AS total FROM product GROUP BY YEAR(date1), MONTH(date1)";
+                                  $run_query = mysqli_query($con,$sql);
+                                  if(mysqli_num_rows($run_query) > 0){
+                                    while($row=mysqli_fetch_array($run_query)){
+                                      $total = $row['total'];
+                                      $month = $row['month'];
+                                      $year = $row['year'];
+                                      $day = $row['day'];
+                                      $last = $row['last'];
+                                      
+                                      
+                                      echo"
+                                      <div><b><i>Total Sales of the Month</i></b>$month $day, $year ----->&#8369;&nbsp;$total-----> $last</div>
+                                      ";
+                                    }
+                                    
+                                  }
+                                ?></div>
+                                <div><?php 
+                                  include "connection.php";
+                                  
+                                  $sql = "SELECT YEAR(date1) as year, SUM(product_price) AS total FROM product GROUP BY YEAR(date1)";
+                                  $run_query = mysqli_query($con,$sql);
+                                  if(mysqli_num_rows($run_query) > 0){
+                                    while($row=mysqli_fetch_array($run_query)){
+                                      $year = $row['year'];
+                                      $total = $row['total'];
+
+                                      
+                                      
+                                      echo"
+                                      <div><b><i>Total Sales of the Year</i></b> $year &#8369;&nbsp;$total</div>
+                                      ";
+                                    }
+                                    
+                                  }
+                                ?></div>
                           </tbody>
                   </table>
-       </div>
+                       </div>
    
        </div>
                </div>
-        
+   &nbsp;<div id="products_msg"></div>
 <div id="myModal1" class="modal fade" role="dialog">
   <div class="modal-dialog">
 <div class="modal-body">
@@ -267,9 +316,13 @@ if(isset($_SESSION['uid'])){
   
       <div id="msg"></div>
 <a href="#top" class="scrolltop">Top</a> 
-
+<script>
+  document.querySelector('.sweet-1').onclick = function(){
+        swal("Here's a message!");
+      };
+</script>
     <script>
-  $(function () {
+  $(function() {
     $("#example1").DataTable();
     $('#example2').DataTable({
       "paging": true,
@@ -282,6 +335,13 @@ if(isset($_SESSION['uid'])){
   });
   
 </script>
+
+  
+  
+  <script src="/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
 <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
@@ -309,5 +369,6 @@ if(isset($_SESSION['uid'])){
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 <script src="plugins/pace/pace.min.js"></script>
+
   </body>
 </html>
