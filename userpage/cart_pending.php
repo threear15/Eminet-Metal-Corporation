@@ -12,6 +12,7 @@ if(!isset($_SESSION['uid'])){
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Eminent Metal Corporation</title>
+       <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
              <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> 
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -48,6 +49,7 @@ if(!isset($_SESSION['uid'])){
     
 
   </head>
+ 
   <body>
     <div class="header">
       <div class="logo">
@@ -120,7 +122,7 @@ if(!isset($_SESSION['uid'])){
             </a>
           </li>
           <li>
-            <a href="cart_pending.php" id="cart_container">
+            <a href="#" id="cart_container">
               <span><i class="fa fa-credit-card-alt"></i></span>
               <span>Cart&nbsp;<span class="badge">0</span></span>
             </a>
@@ -138,134 +140,56 @@ if(!isset($_SESSION['uid'])){
     <div class="main-content">
       <div class="title">
         &nbsp;<div id="msg12"></div>
+        
       </div>        
     </div>
 
-         <div id="slide" class="table-responsive">
+         <div id="slide">
           
-       <div class="row">
-        <div class="col-md-12">
-          <form method="POST">
-        <table id="example1" class="table table-bordered table-striped">
-
-                        <thead id="shop">
-                          <tr>
-                            <th style="background:#233245;color:white">Product Code</th>
-                            <th style="background:#233245;color:white">Product Name</th>
-                            <th style="background:#233245;color:white">Product Image</th>
-                            <th style="background:#233245;color:white">Product HeadStyle</th>
-                            <th style="background:#233245;color:white">Product Size</th>
-                            <th style="background:#233245;color:white">Product Pieces</th>
-                            <th style="background:#233245;color:white">Product Price</th>
-                            <th style="background:#233245;color:white">Product Status</th>
-                            <th style="background:#233245;color:white">Action</th>
-                          </tr>
-                    </thead >
-                    <tbody id='shop'>
-                    <?php 
-                          include "../connection.php";
-                          
-                          $product_query = "SELECT * FROM product";
-                          $run_query = mysqli_query($con,$product_query);
-                          if(mysqli_num_rows($run_query) > 0){
-                            while($row=mysqli_fetch_array($run_query)){
-                              $p_id = $row['product_id'];
-                              $p_code = $row['product_code'];
-                              $p_name = $row['product_name'];
-                              $p_headstyle = $row['product_headstyle'];
-                              $p_pieces = $row['product_pieces'];
-                              $p_image = $row['product_image'];
-                              $p_size = $row['product_size'];
-                              $p_price = $row['product_price'];
-                             
-                              
-                           
-                              
-
-                              if($row['product_stocks'] <= 0){
-                              
-                                  $status = '<button class=" btn btn-danger btn-xs"disabled >Out of Stocks</button>';
-                               
-                              }else{
-                                
-                                  $status = '<button class=" btn btn-success btn-xs"disabled>In Stocks</button>';
-                                
-                              }
-                              if($row['product_stocks'] <= 0){
-                              
-                                  $add = '<button class=" btn btn-danger"disabled>add to cart</button>';
-                               
-                              }else{
-                                
-                                  $add = '<button class="btn btn-success" >add to cart</button>';
-                                
-                              }
-
-                            echo "
-                              <tr>
-                                <td style='padding-top:40px;padding-left:20px;'><b>$p_code</b></td>
-                                <td style='padding-top:40px;padding-left:20px;'><b>$p_name</b></td>                                            
-                                <td><img src='../images/standard/$p_image' style='width:115px;height:100px;'></td>
-                                <td style='padding-top:40px;padding-left:20px;'><b>$p_headstyle</b></td> 
-                                <td style='padding-top:40px;padding-left:20px;'>$p_size</td>
-                                <td style='padding-top:40px;padding-left:20px;'><b>$p_pieces</b></td>
-                                <td style='padding-top:40px;padding-left:20px;'><b>&#8369;$p_price</b></td>
-                                <td style='padding-left:20px;padding-top:40px;'>$status</i></td>
-                                <td style='padding-top:40px;padding-left:15px;' pid='$p_id' p_code='$p_code' class='addme'> $add</td>
-                           </tr>
-                         
-                            ";
-
-                              }
-                                  }
-                                ?>
-                                <div><?php 
-                                  include "../connection.php";
-                                  
-                                  $sql = "SELECT MONTHNAME(date1) as month, YEAR(date1) as year, DAY(date1) as day, LAST_DAY(date1) as last, SUM(product_price) AS total FROM product GROUP BY YEAR(date1), MONTH(date1)";
-                                  $run_query = mysqli_query($con,$sql);
-                                  if(mysqli_num_rows($run_query) > 0){
-                                    while($row=mysqli_fetch_array($run_query)){
-                                      $total = $row['total'];
-                                      $month = $row['month'];
-                                      $year = $row['year'];
-                                      $day = $row['day'];
-                                      $last = $row['last'];
-                                      
-                                      
-                                      echo"
-                                      <div><b><i>Total Sales of the Month</i></b>$month $day, $year ----->&#8369;&nbsp;$total-----> $last</div>
-                                      ";
-                                    }
-                                    
-                                  }
-                                ?></div>
-                                <div><?php 
-                                  include "../connection.php";
-                                  
-                                  $sql = "SELECT YEAR(date1) as year, SUM(product_price) AS total FROM product GROUP BY YEAR(date1)";
-                                  $run_query = mysqli_query($con,$sql);
-                                  if(mysqli_num_rows($run_query) > 0){
-                                    while($row=mysqli_fetch_array($run_query)){
-                                      $year = $row['year'];
-                                      $total = $row['total'];
-
-                                      
-                                      
-                                      echo"
-                                      <div><b><i>Total Sales of the Year</i></b> $year &#8369;&nbsp;$total</div>
-                                      ";
-                                    }
-                                    
-                                  }
-                                ?></div>
-                          </tbody>
-                  </table>
-              </form>
-                       </div>
-   
+          </div>
+          <div><br></div>
+       
+            <div class="container" id='pic' style='width:85%;'>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="panel panel-primary">
+                    <div class="panel-heading">CART CHECKOUT</div>
+                    <div class="panel-body">
+                      <center><div class="row">
+                        <div class="col-md-1"><b>Product Code</b></div>
+                        <div class="col-md-1"><b>Product Name</b></div>
+                        <div class="col-md-2"><b>Product Image</b></div>
+                        <div class="col-md-1"><b>Product Quantity</b></div>
+                        <div class="col-md-1"><b>Product Price</b></div>
+                        <div class="col-md-2"><b>Product Color</b></div>
+                        <div class="col-md-2"><b>Total Price</b></div>
+                        <div class="col-md-2"><b>Action</b></div>
+                      </div><br></center>
+                      <div id='cart_checkout'></div>
+                        <!--<center><div class="row">
+                        <div class="col-md-1"><b>EMC111</b></div>
+                        <div class="col-md-2"><b>Screw</b></div>
+                        <div class="col-md-2"><b><img src='../images/standard/M6X10 TO M6X60 Hexagon Head.jpg' style='width:60px;height:60px;'></b></div>
+                        <div class="col-md-1"><input type='number' min='1' class='form-control' value='1'></div>
+                        <div class="col-md-1"><input type='text' class='form-control' value='800' disabled></div>
+                        <div class="col-md-2"><select class='selectpicker form-control'><option>Black</option><option>Silver</option><option>Tetanize</option></select></div>
+                        <div class="col-md-1"><input type='text' class='form-control' value='800' disabled></div>
+                        <div class="col-md-2">
+                          <div class="btn-group">
+                            <a href='#' class='btn btn-danger'><span class='glyphicon glyphicon-trash'></span></a>
+                            <a href='#' class='btn btn-primary'><span class='glyphicon glyphicon-ok-sign'></span></a>
+                          </div>
+                        </div>
+                      </div></center>-->
+                    </div>
+                    <div class="panel-footer"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
        </div>
-               </div>
+          &nbsp;<div id="msgremove"></div>
+        &nbsp;<div id="msgupdate"></div>
    <div id="msgadd"></div>
 <div id="myModal1" class="modal fade" role="dialog">
   <div class="modal-dialog">

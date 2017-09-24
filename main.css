@@ -214,6 +214,9 @@ body {
 	#body-table{
 	padding-right: 300px;
 }
+	#cart{
+		margin-left: 70px;
+	}
 	
 
 }
@@ -265,6 +268,9 @@ body {
 	font-size: 18px;
 
 }
+	#cart{
+		float: right;
+	}
 
 }
 

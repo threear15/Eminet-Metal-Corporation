@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	cat();
-
+	cart_count();
+	cart_checkout();
 
 	$('.nav-trigger').click(function() {
 		$('.side-nav').toggleClass('visible');
@@ -152,5 +153,63 @@ $("#send_message1").click(function(event){
 			}
 		})
 	})
+		function cart_count(){
+			$.ajax({
+				url : "../action.php",
+				method : "POST",
+				data : {cart_count:1},
+				success : function(data){
+					$(".badge").html(data);
+				}
+			})
+			cart_checkout();
+		}
+		function cart_checkout(){
+			$.ajax({
+				url : "../action.php",
+				method : "POST",
+				data : {cart_checkout:1},
+				success : function(data){
+					$("#cart_checkout").html(data);
+				}
+			})
+		}
+		$("body").delegate(".qty","click",function(){
+			var pid = $(this).attr("pid");
+			var qty = $("#qty-"+pid).val();
+			var color = $("#color-"+pid).val();
+			var price = $("#price-"+pid).val();
+			var total = qty * price;
+			$("#total-"+pid).val(total);
+			
+		})
+		$("body").delegate(".remove","click",function(){
+			var pid = $(this).attr("remove_id");
+			$.ajax({
+				url : "../action.php",
+				method : "POST",
+				data : {remove_from_cart:1,remove_id:pid},
+				success : function(data){
+					$("#msgremove").html(data);
+					cart_checkout();
+				}
+			})
+		})
+		$("body").delegate(".update","click",function(){
+			var pid = $(this).attr("update_id");
+			var qty = $("#qty-"+pid).val();
+			var price = $("#price-"+pid).val();
+			var color = $("#color-"+pid).val();
+			var total = $("#total-"+pid).val();
+			$.ajax({
+				url : "../action.php",
+				method : "POST",
+				data : {update_from_cart:1,update_id:pid,qty:qty,price:price,color:color,total:total},
+				success : function(data){
+					$("#msgupdate").html(data);
+					cart_checkout();
+				}
+			})
+		})
 });
 
