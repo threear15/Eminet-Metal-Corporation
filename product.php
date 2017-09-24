@@ -76,24 +76,12 @@ if(isset($_SESSION['uid'])){
               <span>Home</span>
             </a>
           </li>
-          <div id="get_category1"></div>
-          <!--<li class="dropdown">
-            <a href="#" class="dropbtn">
-
-              <span><i class="fa fa-envelope"></i></span>
-              <span>Products</span>
-
+          <li>
+            <a href="product.php">
+              <span><i class="fa fa-user"></i></span>
+              <span>Product</span>
             </a>
-            
-            <ul>
-                
-            <li class="dropdown-content" style="width:180px;">
-               <a href="tryit_183.htm#">Standard Products</a>
-               <a href="tryit_183.htm#">Special Products</a>
-                
-              </li>
-            </ul>
-          </li>-->
+          </li>
           <li>
             <a href="#">
               <span><i class="fa fa-bar-chart"></i></span>

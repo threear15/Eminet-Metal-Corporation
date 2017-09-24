@@ -1,6 +1,7 @@
 
 <?php 
 session_start();
+
 include "connection.php";
 
 if(isset($_POST['category1'])){
@@ -96,6 +97,7 @@ if(isset($_POST['cart_count'])){
 	echo mysqli_num_rows($run_query);
 }
 if(isset($_POST['cart_checkout'])){
+	error_reporting(0);
 	$uid = $_SESSION['uid'];
 	$sql = "SELECT * FROM cart_pending WHERE user_id='$uid'";
 	$run_query = mysqli_query($con,$sql);
@@ -119,6 +121,7 @@ if(isset($_POST['cart_checkout'])){
 			$price_array = array($new_total);
 			$total_sum = array_sum($price_array);
 			$total_amt = $total_amt + $total_sum;
+			setcookie("ta",$total_amt,strtotime("+1 day"),"/","","",TRUE);
 			echo "
 			<center><div class='row'>
                         <div class='col-md-1'><b>$p_code</b></div>
@@ -149,6 +152,35 @@ if(isset($_POST['cart_checkout'])){
 			</div>
 		";
 	}
+	echo '
+		
+				<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+				  <input type="hidden" name="cmd" value="_cart">
+				  <input type="hidden" name="business" value="EminentCorporation@gmail.com">
+				  <input type="hidden" name="upload" value="1">';
+				  
+				  $x=0;
+				  $uid = $_SESSION["uid"];
+				  $sql = "SELECT * FROM cart_pending WHERE user_id = '$uid'";
+				  $run_query = mysqli_query($con,$sql);
+				  while($row=mysqli_fetch_array($run_query)){
+					  $x++;
+				 echo  '<input type="hidden" name="item_name_'.$x.'" value="'.$row["product_name"].'">
+				  <input type="hidden" name="item_number_'.$x.'" value="'.$x.'">
+				  <input type="hidden" name="amount_'.$x.'" value="'.$row["product_price"].'">
+				  <input type="hidden" name="quantity_'.$x.'" value="'.$row["product_quantity"].'">';
+				  
+				  }
+				  
+				echo   '
+				<input type="hidden" name="return" value="http://localhost/emcfinal/userpage/payment_success.php"/>
+				<input type="hidden" name="cancel_return" value="http://localhost/emcfinal/userpage/payment_success.php"/>
+				<input type="hidden" name="currency_code" value="USD"/>
+				<input type="hidden" name="custom" value="'.$uid.'"/>
+				<input style="float:right;margin-right:80px;" type="image" name="submit"
+					src="https://www.paypalobjects.com/webstatic/en_US/i/btn/png/blue-rect-paypalcheckout-60px.png" alt="PayPal Checkout"
+					alt="PayPal - The safer, easier way to pay online">
+				</form>';
 }
 if(isset($_POST['remove_from_cart'])){
 	$p_id = $_POST['remove_id'];

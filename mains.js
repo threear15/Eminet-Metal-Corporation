@@ -30,6 +30,20 @@ $("#signup_button").click(function(event){
 			}
 		})
 	})
+$("#continue_shopping").click(function(event){
+	event.preventDefault();
+	var f_name = $("#f_name4").val();
+	var trans_id = $("#trans_id4").val();
+	var amount = $("#amount4").val();
+	$.ajax({
+		url : "../payment_function.php",
+		method : "POST",
+		data : {continue_shopping:1,f_name:f_name,trans_id:trans_id,amount:amount},
+		success : function(data){
+			$("#msgcontinue").html(data);
+		}
+	})
+})
 $("body").delegate(".addme","click",function(event){
 		event.preventDefault();
 		var p_id = $(this).attr('pid');

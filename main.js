@@ -27,6 +27,17 @@ $("#signup_button").click(function(event){
 			}
 		})
 	})
+$("#continue_shopping").click(function(event){
+	event.preventDefault();
+	$.ajax({
+		url : "../reg_function.php",
+		method : "POST",
+		data : $("form").serialize(),
+		success : function(data){
+			$("#msgcontinue").html(data);
+		}
+	})
+})
 $("#login").click(function(event){
 	event.preventDefault();
 	var gmail = $("#gmail").val();
