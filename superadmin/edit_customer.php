@@ -1,14 +1,17 @@
-<?php
+<?php 
 session_start();
-if(!isset($_SESSION['uid'])){
-  header("location:../index.php");
+if(!isset($_SESSION['uid_admin'])){
+	header("location:s_admin_login.php");
 }
-$trx_id = $_GET['tx'];
-$p_st = $_GET['st'];
-$amt = $_GET['amt'];
-$cc = $_GET['cc'];
-$cm = $_GET['cm'];
+require_once('bdd.php');
 
+
+$sql = "SELECT id, title, start, end, color FROM events ";
+
+$req = $bdd->prepare($sql);
+$req->execute();
+
+$events = $req->fetchAll();
 
 ?>
 
@@ -19,9 +22,9 @@ $cm = $_GET['cm'];
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Eminent Metal Corporation</title>
-       <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
              <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> 
+  <link href='../css/fullcalendar.css' rel='stylesheet' />
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="../dist/sweetalert.js"></script>
@@ -53,11 +56,22 @@ $cm = $_GET['cm'];
     <script src="../mains.js"></script>
 
 
-    
+    <style>
+    #calendar {
+		max-width: 800px;
+	}
+	.col-centered{
+		float: none;
+		margin: 0 auto;
+	}
+  div.dataTables_wrapper {
+        margin-bottom: 3em;
+    }
+    </style>
 
   </head>
- 
   <body>
+
     <div class="header">
       <div class="logo">
         <i class="fa fa-tachometer" style="color:#fff;"></i>
@@ -68,7 +82,7 @@ $cm = $_GET['cm'];
           
               <a href="#" id="go">
               <span><i class="fa fa-user"></i></span>
-              <span style="color:white;"><?php echo "".$_SESSION['name'];?></span>
+              <span style="color:white;"><?php echo "".$_SESSION['name_admin'];?></span>
             </a>
             
         </nav>
@@ -81,61 +95,77 @@ $cm = $_GET['cm'];
       <nav>
         <ul>
           <li class="active">
-            <a href="../index.php">
+            <a href="index.php">
               <span><i class="fa fa-user"></i></span>
-              <span>Home</span>
+              <span>Dashboard</span>
             </a>
           </li>
-          <div id="get_category1"></div>
-          <!--<li class="dropdown">
+          
+          <li class="dropdown">
             <a href="#" class="dropbtn">
 
               <span><i class="fa fa-envelope"></i></span>
-              <span>Products</span>
+              <span>Modify Accounts</span>
 
             </a>
             
             <ul>
                 
             <li class="dropdown-content" style="width:180px;">
-               <a href="tryit_183.htm#">Standard Products</a>
-               <a href="tryit_183.htm#">Special Products</a>
-                
+               <a href="customer_modify.php">Customers</a>
+               <a href="tryit_183.htm#" data-toggle="modal" data-target="#customer_edit">Admin</a>
+                <a href="tryit_183.htm#">Super Admin</a>
               </li>
             </ul>
-          </li>-->
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropbtn">
+
+              <span><i class="fa fa-envelope"></i></span>
+              <span>Sales</span>
+
+            </a>
+            
+            <ul>
+                
+            <li class="dropdown-content" style="width:180px;">
+               <a href="tryit_183.htm#">Every Month</a>
+               <a href="tryit_183.htm#">Every Year</a>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropbtn">
+
+              <span><i class="fa fa-envelope"></i></span>
+              <span>Modify Products</span>
+
+            </a>
+            
+            <ul>
+                
+            <li class="dropdown-content" style="width:180px;">
+               <a href="tryit_183.htm#">Add Product</a>
+                <a href="tryit_183.htm#">Update Product</a>
+                <a href="tryit_183.htm#">Delete Product</a>
+
+              </li>
+            </ul>
+          </li>
           <li>
+            <a href="index1.php">
+              <span><i class="fa fa-user"></i></span>
+              <span>Delivery Schedule</span>
+            </a>
+          </li>
+            <li>
             <a href="#">
-              <span><i class="fa fa-bar-chart"></i></span>
-              <span>About Us</span>
+              <span><i class="fa fa-user"></i></span>
+              <span>Payment Received</span>
             </a>
           </li>
           <li>
-            <a href="#">
-              <span><i class="fa fa-credit-card-alt"></i></span>
-              <span>Contact Us</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <span><i class="fa fa-credit-card-alt"></i></span>
-              <span>FAQ's</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <span><i class="fa fa-credit-card-alt"></i></span>
-              <span>Terms & Conditions</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" id="cart_container">
-              <span><i class="fa fa-credit-card-alt"></i></span>
-              <span>Cart&nbsp;<span class="badge">0</span></span>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="sweet-5" onclick="_gaq.push(['_trackEvent', 'example', 'try', 'sweet-5']);">
+            <a href="#" class="sweet-5" onclick="_gaq.push(['_trackEvent', 'example', 'try', 'sweet-5']);" id="logout_me">
               <span><i class="fa fa-credit-card-alt"></i></span>
               <span>Logout</span>
             </a>
@@ -147,113 +177,55 @@ $cm = $_GET['cm'];
     <div class="main-content">
       <div class="title">
         &nbsp;<div id="msg12"></div>
-        
       </div>        
     </div>
-
-         <div id="slide">
+    <div class="container">
+      <div id="edit_customer"></div>
+ 
+           
           
-          </div>
-          <div class="container">
-  
-    <div class="row">
-      <div class="col-md-2"></div>
-      <div class="col-md-8">
-        <div class="panel panel-default">
-          <div class="panel-heading"><?php echo $_SESSION['number'];?></div>
-          <div class="panel-body">
-            <div id="msgcontinue"></div>
+    </div>
+    <!--<div class="container">
 
-            <div class="row">
-              <div class="col-md-6">
-                <label>Hello</label>
-              </div>
-            <div class="col-md-6">
-                <input type="text" class="form-control" name="f_name4" id="f_name4"  value="<?php echo $_SESSION["name"];?>" disabled/>
-            </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label>Your Transaction Id</label>
-              </div>
-            <div class="col-md-6">
-                <input type="text" class="form-control" name="trans_id4" id="trans_id4" value="<?php echo $trx_id;?>" disabled/>
-            </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label>Total Amount you paid</label>
-              </div>
-            <div class="col-md-6">
-                <input type="text" class="form-control" name="amount4" id="amount4" value="<?php echo "Php", $amt;?>" disabled/>
-            </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label>Your Gmail</label>
-              </div>
-            <div class="col-md-6">
-                <input type="text" class="form-control" name="amount4" id="gmail4" value="<?php echo $_SESSION['gmail'];?>" disabled/>
-            </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label>Hello</label>
-              </div>
-            <div class="col-md-6">
-                <input type="text" class="form-control" name="number4" id="number4"  value="<?php echo $_SESSION["number"];?>" disabled/>
-            </div>
-            </div>
-            <a href="#" class="btn btn-success btn-lg" id="continue_shopping">Continue Shopping</a>
-          </div>
-          <div class="panel-footer"></div>
+  <div class="modal fade" id="customer_edit" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit Customer Details</h4>
+        </div>
+        <div class="modal-body">
+          <p>This is a large modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
-      <div class="col-md-2"></div>
     </div>
   </div>
-  
-</body>
+</div>-->
 
-   <div id="msgadd"></div>
-<div id="myModal1" class="modal fade" role="dialog">
+         <div id="slide">
+          <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
-<div class="modal-body">
+<center><div class="modal-body" style="width:800px;">
+
          <div class="row">
           <div class="col-sm-12">
+            <div id="msglog"></div>
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h3 class="panel-title">
-                  Login <a href="#" class="fa fa-fw fa-times" data-dismiss="modal" style="float:right;"></a>
+                  Edit Customer Details<a href="customer_modify.php" class="fa fa-fw fa-times" style="float:right;"></a>
                 </h3>
               </div>
               <div class="panel-body">
-                <form accept-charset="UTF-8" role="form">
-                  <fieldset>
-                    <div class="form-group">
-                      <div class="input-group input-group-lg">
-                        <span class="input-group-addon"><i class="fa fa-fw fa-envelope"></i></span>
-                        <input type="text" class="form-control" name="email" id="gmail" placeholder="Email">
-
-                        <input type="hidden" class="form-control" id="status" value="Approved">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <div class="input-group input-group-lg">
-                        <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
-                        <input type="password" class="form-control" id="password12" name="password" placeholder="Password">
-                      </div>
-                    </div>
-                    <div class="checkbox">
-                      <label>
-                        <input name="remember" type="checkbox" value="Remember Me">
-                        Remember Me 
-                      </label>
-                    </div>
-                    <input class="btn btn-lg btn-primary btn-block" type="submit" id="login" name="login" value="Login">
-                  </fieldset>
-                </form>
-                <p class="m-b-0 m-t">Not signed up? <a href="user_reg.php">Sign up here</a>.</p>
+     
+            <?php include"edit_function.php";
+            edit_view();
+            ?>
+   
+               
                 <div class="credits">
                   <!-- 
                     All the links in the footer should remain intact. 
@@ -273,10 +245,24 @@ $cm = $_GET['cm'];
 
   </div>
 </div>
+</div>
+<script type="text/javascript">
+    $(window).on('load',function(){
+        $('#myModal').modal('show');
+    });
+</script>
+    <div id="msg_print_receipt"></div>
+   <div id="msgadd"></div>
+
 
   
       <div id="msg"></div>
 <a href="#top" class="scrolltop">Top</a> 
+<script>
+$(document).ready(function() {
+    $('table.display').DataTable();
+} );
+</script>
 <script>
   document.querySelector('.sweet-1').onclick = function(){
         swal("Here's a message!");
@@ -311,7 +297,7 @@ document.querySelector('.sweet-5').onclick = function(){
         },
         function(isConfirm){
           if (isConfirm){
-            window.location.href="../logout.php";
+            window.location.href="logout_admin.php";
 
           } 
           else {
@@ -320,6 +306,15 @@ document.querySelector('.sweet-5').onclick = function(){
         });
       };
 </script>
+<script src="../js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../js/bootstrap.min.js"></script>
+	
+	<!-- FullCalendar -->
+	<script src='../js/moment.min.js'></script>
+	<script src='../js/fullcalendar.min.js'></script>
+	
 
   
   

@@ -1,8 +1,18 @@
-<?php
+<?php 
 session_start();
-if(!isset($_SESSION['uid'])){
-  header("location:../index.php");
+if(!isset($_SESSION['uid_admin'])){
+	header("location:s_admin_login.php");
 }
+require_once('bdd.php');
+
+
+$sql = "SELECT id, title, start, end, color FROM events ";
+
+$req = $bdd->prepare($sql);
+$req->execute();
+
+$events = $req->fetchAll();
+
 ?>
 
 <!DOCTYPE html>
@@ -14,9 +24,7 @@ if(!isset($_SESSION['uid'])){
     <title>Eminent Metal Corporation</title>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
              <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> 
-  <link rel="stylesheet" type="text/css" href="../js/jquery.dataTables.min.css">
-  <script src="../js/jquery-1.12.4.js"></script>
-  <script src="../js/jquery.dataTables.min.js"></script>
+  <link href='../css/fullcalendar.css' rel='stylesheet' />
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="../dist/sweetalert.js"></script>
@@ -48,7 +56,15 @@ if(!isset($_SESSION['uid'])){
     <script src="../mains.js"></script>
 
 
-    
+    <style>
+    #calendar {
+		max-width: 800px;
+	}
+	.col-centered{
+		float: none;
+		margin: 0 auto;
+	}
+    </style>
 
   </head>
   <body>
@@ -62,7 +78,7 @@ if(!isset($_SESSION['uid'])){
           
               <a href="#" id="go">
               <span><i class="fa fa-user"></i></span>
-              <span style="color:white;"><?php echo "".$_SESSION['name'];?></span>
+              <span style="color:white;"><?php echo "".$_SESSION['name_admin'];?></span>
             </a>
             
         </nav>
@@ -75,64 +91,73 @@ if(!isset($_SESSION['uid'])){
       <nav>
         <ul>
           <li class="active">
-            <a href="../index.php">
+            <a href="index.php">
               <span><i class="fa fa-user"></i></span>
-              <span>Home</span>
+              <span>Dashboard</span>
             </a>
           </li>
-          <div id="get_category1"></div>
-          <!--<li class="dropdown">
+          
+          <li class="dropdown">
             <a href="#" class="dropbtn">
 
               <span><i class="fa fa-envelope"></i></span>
-              <span>Products</span>
+              <span>Modify Accounts</span>
 
             </a>
             
             <ul>
                 
             <li class="dropdown-content" style="width:180px;">
-               <a href="tryit_183.htm#">Standard Products</a>
-               <a href="tryit_183.htm#">Special Products</a>
-                
+               <a href="customer_modify.php">Customers</a>
+               <a href="tryit_183.htm#">Admin</a>
+                <a href="tryit_183.htm#">Super Admin</a>
               </li>
             </ul>
-          </li>-->
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropbtn">
+
+              <span><i class="fa fa-envelope"></i></span>
+              <span>Sales</span>
+
+            </a>
+            
+            <ul>
+                
+            <li class="dropdown-content" style="width:180px;">
+               <a href="tryit_183.htm#">Every Month</a>
+               <a href="tryit_183.htm#">Every Year</a>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropbtn">
+
+              <span><i class="fa fa-envelope"></i></span>
+              <span>Modify Products</span>
+
+            </a>
+            
+            <ul>
+                
+            <li class="dropdown-content" style="width:180px;">
+               <a href="tryit_183.htm#">Add Product</a>
+                <a href="tryit_183.htm#">Update Product</a>
+                <a href="tryit_183.htm#">Delete Product</a>
+
+              </li>
+            </ul>
+          </li>
           <li>
+            <a href="index1.php">
+              <span><i class="fa fa-user"></i></span>
+              <span>Delivery Schedule</span>
+            </a>
+          </li>
+            <li>
             <a href="#">
-              <span><i class="fa fa-bar-chart"></i></span>
-              <span>About Us</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <span><i class="fa fa-credit-card-alt"></i></span>
-              <span>Contact Us</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <span><i class="fa fa-credit-card-alt"></i></span>
-              <span>FAQ's</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <span><i class="fa fa-credit-card-alt"></i></span>
-              <span>Terms & Conditions</span>
-            </a>
-          </li>
-          <li>
-            <a href="cart_pending.php" id="cart_container">
-              <span><i class="fa fa-credit-card-alt"></i></span>
-              <span>Cart&nbsp;<span class="badge">0</span></span>
-            </a>
-          </li>
-          <li>
-            <input type="hidden" id="print_me" class="form-control" value="<?php echo $_SESSION['uid'];?>">
-            <a href="#" id="print_receipt">
-              <span><i class="fa fa-credit-card-alt"></i></span>
-              <span>Print Receipt</span>
+              <span><i class="fa fa-user"></i></span>
+              <span>Payment Received</span>
             </a>
           </li>
           <li>
@@ -151,129 +176,34 @@ if(!isset($_SESSION['uid'])){
       </div>        
     </div>
 
-         <div id="slide" class="table-responsive">
-          
-       <div class="row">
-        <div class="col-md-12">
-          <form method="POST">
-        <table id="example1" class="table table-bordered table-striped">
-
-                        <thead id="shop">
-                          <tr>
-                            <th style="background:#233245;color:white">Product Code</th>
-                            <th style="background:#233245;color:white">Product Name</th>
-                            <th style="background:#233245;color:white">Product Image</th>
-                            <th style="background:#233245;color:white">Product HeadStyle</th>
-                            <th style="background:#233245;color:white">Product Size</th>
-                            <th style="background:#233245;color:white">Product Pieces</th>
-                            <th style="background:#233245;color:white">Product Price</th>
-                            <th style="background:#233245;color:white">Product Status</th>
-                            <th style="background:#233245;color:white">Action</th>
-                          </tr>
-                    </thead >
-                    <tbody id='shop'>
-                    <?php 
-                          include "../connection.php";
-                          
-                          $product_query = "SELECT * FROM product";
-                          $run_query = mysqli_query($con,$product_query);
-                          if(mysqli_num_rows($run_query) > 0){
-                            while($row=mysqli_fetch_array($run_query)){
-                              $p_id = $row['product_id'];
-                              $p_code = $row['product_code'];
-                              $p_name = $row['product_name'];
-                              $p_headstyle = $row['product_headstyle'];
-                              $p_pieces = $row['product_pieces'];
-                              $p_image = $row['product_image'];
-                              $p_size = $row['product_size'];
-                              $p_price = $row['product_price'];
-                             
-                              
-                           
-                              
-
-                              if($row['product_stocks'] <= 0){
-                              
-                                  $status = '<button class=" btn btn-danger btn-xs"disabled >Out of Stocks</button>';
-                               
-                              }else{
-                                
-                                  $status = '<button class=" btn btn-success btn-xs"disabled>In Stocks</button>';
-                                
-                              }
-                              if($row['product_stocks'] <= 0){
-                              
-                                  $add = '<button class=" btn btn-danger"disabled>add to cart</button>';
-                               
-                              }else{
-                                
-                                  $add = '<button class="btn btn-success" >add to cart</button>';
-                                
-                              }
-
-                            echo "
-                              <tr>
-                                <td style='padding-top:40px;padding-left:20px;'><b>$p_code</b></td>
-                                <td style='padding-top:40px;padding-left:20px;'><b>$p_name</b></td>                                            
-                                <td><img src='../images/standard/$p_image' style='width:115px;height:100px;'></td>
-                                <td style='padding-top:40px;padding-left:20px;'><b>$p_headstyle</b></td> 
-                                <td style='padding-top:40px;padding-left:20px;'>$p_size</td>
-                                <td style='padding-top:40px;padding-left:20px;'><b>$p_pieces</b></td>
-                                <td style='padding-top:40px;padding-left:20px;'><b>&#8369;$p_price</b></td>
-                                <td style='padding-left:20px;padding-top:40px;'>$status</i></td>
-                                <td style='padding-top:40px;padding-left:15px;' pid='$p_id' p_code='$p_code' class='addme'> $add</td>
-                           </tr>
-                         
-                            ";
-
-                              }
-                                  }
-                                ?>
-                                <div><?php 
-                                  include "../connection.php";
-                                  
-                                  $sql = "SELECT MONTHNAME(date1) as month, YEAR(date1) as year, DAY(date1) as day, LAST_DAY(date1) as last, SUM(product_price) AS total FROM product GROUP BY YEAR(date1), MONTH(date1)";
-                                  $run_query = mysqli_query($con,$sql);
-                                  if(mysqli_num_rows($run_query) > 0){
-                                    while($row=mysqli_fetch_array($run_query)){
-                                      $total = $row['total'];
-                                      $month = $row['month'];
-                                      $year = $row['year'];
-                                      $day = $row['day'];
-                                      $last = $row['last'];
-                                      
-                                      
-                                      echo"
-                                      <div><b><i>Total Sales of the Month</i></b>$month $day, $year ----->&#8369;&nbsp;$total-----> $last</div>
-                                      ";
-                                    }
-                                    
-                                  }
-                                ?></div>
-                                <div><?php 
-                                  include "../connection.php";
-                                  
-                                  $sql = "SELECT YEAR(date1) as year, SUM(product_price) AS total FROM product GROUP BY YEAR(date1)";
-                                  $run_query = mysqli_query($con,$sql);
-                                  if(mysqli_num_rows($run_query) > 0){
-                                    while($row=mysqli_fetch_array($run_query)){
-                                      $year = $row['year'];
-                                      $total = $row['total'];
-
-                                      
-                                      
-                                      echo"
-                                      <div><b><i>Total Sales of the Year</i></b> $year &#8369;&nbsp;$total</div>
-                                      ";
-                                    }
-                                    
-                                  }
-                                ?></div>
-                          </tbody>
-                  </table>
-              </form>
-                       </div>
-   
+         <div id="slide">
+              <div style="width:100%;">
+                  <div class="row">
+                    <div id="get_admin_image"></div>
+                    <!--<div class="col-md-3">
+                      <img src="../images/avatar3.png" style="width:250px;height:230px;padding-top:5px;padding-left:5px;">
+                    </div>-->
+                    <div class="col-md-3" style="width:15%;">
+                        <label style="padding-top:20px;">First Name</label><br>
+                        <label style="padding-top:10px;">Middle Name</label><br>
+                        <label style="padding-top:10px;">Last Name</label><br>
+                        <label style="padding-top:10px;">Age</label><br>
+                        <label style="padding-top:10px;">Gender</label><br>
+                        <label style="padding-top:10px;">Role</label><br>   
+                    </div>
+                    <div id="get_admin_info"></div>
+                    <!--<div class="col-md-6">
+                      <p></p>
+                      <input type="text" id="f_name23" class="form-control"/>
+                      <input type="text" id="m_name23" class="form-control"/>
+                      <input type="text" id="l_name23" class="form-control"/>
+                      <input type="text" id="age" class="form-control"/>
+                      <input type="text" id="gender" class="form-control"/>
+                      <input type="text" id="role" class="form-control"/>
+                    </div>-->
+                  </div>
+              </div>
+              
        </div>
                </div>
     <div id="msg_print_receipt"></div>
@@ -373,7 +303,7 @@ document.querySelector('.sweet-5').onclick = function(){
         },
         function(isConfirm){
           if (isConfirm){
-            window.location.href="../logout.php";
+            window.location.href="logout_admin.php";
 
           } 
           else {
@@ -382,6 +312,15 @@ document.querySelector('.sweet-5').onclick = function(){
         });
       };
 </script>
+<script src="../js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../js/bootstrap.min.js"></script>
+	
+	<!-- FullCalendar -->
+	<script src='../js/moment.min.js'></script>
+	<script src='../js/fullcalendar.min.js'></script>
+	
 
   
   

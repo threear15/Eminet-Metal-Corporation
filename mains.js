@@ -2,11 +2,39 @@ $(document).ready(function() {
 	cat();
 	cart_count();
 	cart_checkout();
+	cart_print();
+	personal_info();
+	get_admin_info();
+	get_admin_image();
+
 
 	$('.nav-trigger').click(function() {
 		$('.side-nav').toggleClass('visible');
 	
 	});
+	
+
+
+	function get_admin_image(){
+		$.ajax({
+			url : "super_admin_function.php",
+			method : "POST",
+			data : {get_admin_image:1},
+			success : function(data){
+				$("#get_admin_image").html(data);
+			}
+		})
+	}
+	function get_admin_info(){
+		$.ajax({
+			url : "super_admin_function.php",
+			method : "POST",
+			data : {get_admin_info:1},
+			success : function(data){
+				$("#get_admin_info").html(data);
+			}
+		})
+	}
 function cat(){
 	$.ajax({
 		url : "action.php",
@@ -17,7 +45,19 @@ function cat(){
 		}
 	})
 }
-
+$("#login_admin1").click(function(event){
+	event.preventDefault();
+	var username = $("#user").val();
+	var password = $("#pass").val();
+	$.ajax({
+		url : "../login.php",
+		method : "POST",
+		data : {login_admin:1,username:username,password:password},
+		success : function(data){
+			$("#msg_login_admin").html(data);
+		}
+	})	
+})
 
 $("#signup_button").click(function(event){
 		event.preventDefault();
@@ -35,10 +75,12 @@ $("#continue_shopping").click(function(event){
 	var f_name = $("#f_name4").val();
 	var trans_id = $("#trans_id4").val();
 	var amount = $("#amount4").val();
+	var gmail = $("#gmail4").val();
+	var number = $("#number4").val();
 	$.ajax({
 		url : "../payment_function.php",
 		method : "POST",
-		data : {continue_shopping:1,f_name:f_name,trans_id:trans_id,amount:amount},
+		data : {continue_shopping:1,f_name:f_name,trans_id:trans_id,amount:amount,gmail:gmail,number:number},
 		success : function(data){
 			$("#msgcontinue").html(data);
 		}
@@ -70,6 +112,39 @@ $("#login").click(function(event){
 		success : function(data){
 			$("#msg").html(data);
 
+		}
+	})
+})
+$("#delete_receipt").click(function(event){
+	event.preventDefault();
+	$.ajax({
+		url : "../login.php",
+		method : "POST",
+		data : {delete_receipt:1},
+		success : function(data){
+			$("#msg_delete_receipt").html(data);
+		}
+	})
+})
+$("#print_receipt").click(function(event){
+	event.preventDefault();
+	var print_me = $("#print_me").val();
+	$.ajax({
+		url : "../login.php",
+		method : "POST",
+		data : {print_receipt:1,print_me:print_me},
+		success : function(data){
+			$("#msg_print_receipt").html(data);
+		}
+	})
+})
+$("#logout_me").click(function(){
+	$.ajax({
+		url : "logout_admin.php",
+		method : "POST",
+		data : {logout_me:1},
+		success : function(data){
+			$("#mgs_out").html(data);
 		}
 	})
 })
@@ -187,10 +262,32 @@ $("#send_message1").click(function(event){
 					$("#cart_checkout").html(data);
 				}
 			})
+
+		}
+		function cart_print(){
+			$.ajax({
+				url : "../action.php",
+				method : "POST",
+				data : {cart_print:1},
+				success : function(data){
+					$("#msg_print_item1").html(data);
+				}
+			})
+		}
+		function personal_info(){
+			$.ajax({
+				url : "../action.php",
+				method : "POST",
+				data : {personal_info:1},
+				success : function(data){
+					$("#msg_personal_info").html(data);
+				}
+			})
 		}
 		$("body").delegate(".qty","click",function(){
 			var pid = $(this).attr("pid");
-			var qty = $("#qty-"+pid).val();
+			var qty = $("#size-"+pid).val();
+			var size = $("#qty-"+pid).val();
 			var color = $("#color-"+pid).val();
 			var price = $("#price-"+pid).val();
 			var total = qty * price;
@@ -212,18 +309,20 @@ $("#send_message1").click(function(event){
 		$("body").delegate(".update","click",function(){
 			var pid = $(this).attr("update_id");
 			var qty = $("#qty-"+pid).val();
+			var size = $("#size1-"+pid).val();
 			var price = $("#price-"+pid).val();
 			var color = $("#color-"+pid).val();
 			var total = $("#total-"+pid).val();
 			$.ajax({
 				url : "../action.php",
 				method : "POST",
-				data : {update_from_cart:1,update_id:pid,qty:qty,price:price,color:color,total:total},
+				data : {update_from_cart:1,update_id:pid,qty:qty,price:price,color:color,size:size,total:total},
 				success : function(data){
 					$("#msgupdate").html(data);
 					cart_checkout();
 				}
 			})
 		})
+
 });
 

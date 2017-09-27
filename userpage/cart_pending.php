@@ -158,11 +158,12 @@ if(!isset($_SESSION['uid'])){
                       <center><div class="row">
                         <div class="col-md-1"><b>Product Code</b></div>
                         <div class="col-md-1"><b>Product Name</b></div>
-                        <div class="col-md-2"><b>Product Image</b></div>
+                        <div class="col-md-1"><b>Product Image</b></div>
+                        <div class="col-md-2"><b>Product Size</b></div>
                         <div class="col-md-1"><b>Product Quantity</b></div>
                         <div class="col-md-1"><b>Product Price</b></div>
                         <div class="col-md-2"><b>Product Color</b></div>
-                        <div class="col-md-2"><b>Total Price</b></div>
+                        <div class="col-md-1"><b>Total Price</b></div>
                         <div class="col-md-2"><b>Action</b></div>
                       </div><br></center>
                       <div id='cart_checkout'></div>

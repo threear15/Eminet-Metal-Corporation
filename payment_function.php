@@ -5,13 +5,19 @@ $uid = $_SESSION['uid'];
 $f_name = $_POST['f_name'];
 $trans_id = $_POST['trans_id'];
 $amount = $_POST['amount'];
-$sql = "INSERT INTO `received_payment` (`id`, `uid`, `pid`, `amount`, `transaction_id`)
- VALUES (NULL, '$f_name', '0', '$amount', '$trans_id')";
+$gmail = $_POST['gmail'];
+$number = $_POST['number'];
+$sql = "INSERT INTO `received_payment` (`id`, `uid`, `pid`, `amount`, `transaction_id`,`gmail`,`number`)
+ VALUES (NULL, '$f_name', '0', '$amount', '$trans_id','$gmail','$number')";
  $run_query = mysqli_query($con,$sql);
  if($run_query){
- 	$sql1 = "DELETE FROM cart_pending WHERE user_id = '$uid'";
- 	$run_query1 = mysqli_query($con,$sql1);
- 	if($run_query1){
+    $sql2 = "INSERT INTO  cart_approved SELECT * FROM cart_pending WHERE user_id ='$uid'";
+    $run_query2 = mysqli_query($con,$sql2);
+if($run_query2){
+  $sql1 = "DELETE FROM cart_pending WHERE user_id = '$uid'";
+  $run_query1 = mysqli_query($con,$sql1);
+}
+  if($run_query1){
  		echo "
 			<script>
 			setTimeout(function() {
