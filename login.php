@@ -173,10 +173,13 @@ if(isset($_POST['login_admin'])){
 		";
 		exit();
 	}else{
-		if($count > 0){
+		
 			$row = mysqli_fetch_array($run_query);
+			if($count > 0){
 			$_SESSION['uid_admin'] = $row['id'];
 			$_SESSION['name_admin'] = $row['f_name'];
+			
+				
 		echo"
 			<script>
 			

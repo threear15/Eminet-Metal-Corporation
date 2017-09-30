@@ -40,7 +40,7 @@ if(isset($_POST['addproduct'])){
 	$p_id = $_POST['p_id'];
 	$color = 'Black';
 	$user_id = $_SESSION['uid'];
-	$sql = "SELECT * FROM cart_pending WHERE p_id = '$p_id' AND user_id='$user_id'";
+	$sql = "SELECT * FROM cart_pending WHERE p_id = '$p_id'AND user_id='$user_id'";
 	$run_query = mysqli_query($con,$sql);
 	$count = mysqli_num_rows($run_query);
 	if($count > 0){
@@ -96,6 +96,26 @@ if(isset($_POST['cart_count'])){
 	$run_query = mysqli_query($con,$sql);
 	echo mysqli_num_rows($run_query);
 }
+if(isset($_POST['cart_count_admin'])){
+	$sql = "SELECT * FROM product";
+	$run_query = mysqli_query($con,$sql);
+	echo mysqli_num_rows($run_query);
+}
+if(isset($_POST['count_customer'])){
+	$sql = "SELECT * FROM user";
+	$run_query = mysqli_query($con,$sql);
+	echo mysqli_num_rows($run_query);
+}
+if(isset($_POST['count_superadmin'])){
+	$sql = "SELECT * FROM super_admin WHERE role ='Super Admin'";
+	$run_query = mysqli_query($con,$sql);
+	echo mysqli_num_rows($run_query);
+}
+if(isset($_POST['count_admin'])){
+	$sql = "SELECT * FROM super_admin WHERE role ='Admin'";
+	$run_query = mysqli_query($con,$sql);
+	echo mysqli_num_rows($run_query);
+}
 if(isset($_POST['cart_checkout'])){
 	error_reporting(0);
 	$uid = $_SESSION['uid'];
@@ -122,15 +142,17 @@ if(isset($_POST['cart_checkout'])){
 			$total_sum = array_sum($price_array);
 			$total_amt = $total_amt + $total_sum;
 			setcookie("ta",$total_amt,strtotime("+1 day"),"/","","",TRUE);
+
+			
 			echo "
 			<center><div class='row'>
                         <div class='col-md-1'><b>$p_code</b></div>
                         <div class='col-md-1'><b>$p_name</b></div>
                         <div class='col-md-1'><b><img src='../images/standard/$p_image' style='width:80px;height:90px;'></b></div>
-                        <div class='col-md-2'><select class='selectpicker form-control size1' pid='$p_id' id='size1-$p_id' ><option>$p_size</option><option>M6 by 12</option><option>M6 by10</option><option>M6 by 15</option></select></div>
+                        <div class='col-md-2'><input type='text' class=' form-control size1' pid='$p_id' id='size1-$p_id' value='$p_size' disabled></div>
                         <div class='col-md-1'><input type='number' min='1' class='form-control qty' pid='$p_id' id='qty-$p_id' value='$p_qty'></div>
                         <div class='col-md-1'><input type='text' class='form-control price' pid='$p_id' id='price-$p_id' value='$p_price' disabled></div>
-                        <div class='col-md-2'><select class='selectpicker form-control color' pid='$p_id' id='color-$p_id' ><option>$p_color</option><option>Black</option><option>Silver</option><option>Tetanize</option></select></div>
+                        <div class='col-md-2'><select class='selectpicker form-control color' pid='$p_id' id='color-$p_id' ><option>$p_color</option><option>Black</option><option>Bright Sink</option><option>Tetanize</option></select></div>
                         <div class='col-md-1'><input type='text' class='form-control total' pid='$p_id' id='total-$p_id' value='$new_total' disabled></div>
                         <div class='col-md-2'>
                           <div class='btn-group'>
@@ -185,8 +207,8 @@ if(isset($_POST['cart_checkout'])){
 				  <input type="hidden" name="first_name" value="'.$uid.'">
 				  <input type="hidden" name="last_name" value="'.$gmail.'">
 				  
-				<input style="float:right;margin-right:80px;" type="image" name="submit"
-					src="https://www.paypalobjects.com/webstatic/en_US/i/btn/png/blue-rect-paypalcheckout-60px.png" alt="PayPal Checkout"
+				<input style="float:right;margin-right:80px;width:200px;" type="image" name="submit"
+					src="../images/pic.png" alt="PayPal Checkout"
 					alt="PayPal - The safer, easier way to pay online">
 				</form>';
 }
@@ -366,6 +388,19 @@ if(isset($_POST['personal_info'])){
 			';
 		
 	}
+}
+if(isset($_POST["addwidar"])){
+	echo "
+<script>
+		        swal({
+		          title: 'Warning!!!',
+		          text: 'Sign In First!!!',
+		          type: 'warning',
+		          confirmButtonClass: 'btn-warning',
+		          confirmButtonText: 'Ok'
+		        });
+			</script>
+	";
 }
 
 ?>

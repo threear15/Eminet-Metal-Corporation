@@ -115,9 +115,10 @@ $events = $req->fetchAll();
             <ul>
                 
             <li class="dropdown-content" style="width:180px;">
-               <a href="tryit_183.htm#">Customers</a>
-               <a href="tryit_183.htm#" data-toggle="modal" data-target="#customer_edit">Admin</a>
-                <a href="tryit_183.htm#">Super Admin</a>
+               <a href="customer_modify.php">Customers&nbsp;<?php error_reporting(0); ?><span class='badge' id="badge_customer">0</span></a>
+               <a href="admin_modify.php">Admin&nbsp;<?php error_reporting(0); ?><span class='badge' id="badge_admin">0</span></a>
+                <a href="superadmin_modify.php">Super Admin&nbsp;<?php error_reporting(0); ?><span class='badge' id="badge_superadmin">0</span></a>
+                <a href="add_admin.php">Add Admin</a>
               </li>
             </ul>
           </li>
@@ -148,10 +149,12 @@ $events = $req->fetchAll();
             <ul>
                 
             <li class="dropdown-content" style="width:180px;">
-               <a href="tryit_183.htm#">Add Product</a>
-                <a href="tryit_183.htm#">Update Product</a>
-                <a href="tryit_183.htm#">Delete Product</a>
+               <a href="add_product.php">Add Product</a>
+                <a href="product_modify.php">Edit Product&nbsp;<?php error_reporting(0); ?><span class='badge' id="badge_product_admin">0</span></a>
+                <a href="#" id="delete">Delete All Product</a>
 
+
+              </form>
               </li>
             </ul>
           </li>
@@ -217,7 +220,6 @@ $events = $req->fetchAll();
                 <th>G-mail Address</th>
                 <th>Gender</th>
                 <th>Age</th>
-                <th>id</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -227,7 +229,6 @@ $events = $req->fetchAll();
                 <th>G-mail Address</th>
                 <th>Gender</th>
                 <th>Age</th>
-                <th>id</th>
                 <th>Action</th>
             </tr>
         </tfoot>
@@ -253,7 +254,7 @@ $events = $req->fetchAll();
                 <td>'.$age.'</td>
                 
                 <form method="POST">
-                <td><input type="text" name="id" value="'.$id.'"</td>
+                <input type="hidden" name="id" value="'.$id.'">
                 <td><button type="submit" class="btn btn-primary btn-xs" name="btn-edit">EDIT</button>
                 <button type="submit" class="btn btn-danger btn-xs" name="btn-update-password">UPDATE PASSWORD</button></td>
                 </form>

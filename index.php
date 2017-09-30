@@ -193,7 +193,7 @@ elseif(isset($_SESSION['uid2'])){
 
   </div>
 </div>
-<div id="myModalwidar" class="modal fade" role="dialog" >
+ <div id="myModalwidar" class="modal fade" role="dialog" >
   <div class="modal-dialog" >
 <div class="modal-body">
          <div class="row">
@@ -202,28 +202,134 @@ elseif(isset($_SESSION['uid2'])){
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h3 class="panel-title">
-                  Login <a href="#" id="close" class="fa fa-fw fa-times" data-dismiss="modal" style="float:right;"></a>
+                  <h2>Metal Screw</h2>
                 </h3>
               </div>
               <div class="panel-body">
-                
-                 <div>Widar</div>
-               
-                <p class="m-b-0 m-t">Not signed up? <a href="user_reg.php">Sign up here</a>.</p>
-                <div class="credits">
-                  <!-- 
-                    All the links in the footer should remain intact. 
-                    You can delete the links only if you purchased the pro version.
-                    Licensing information: https://bootstrapmade.com/license/
-                    Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Flexor
-                  -->
-                  <a href="#">Eminent Metal Corporation</a>
-                </div>
+               <img src="images/standard/Standard Size Metal Screw Pan Head/7 X 1[4] TO  1 inch.jpg" style="width:100%; height:100%;">
+               <h3>
+              <div style="color:black;">
+                <b style="font-size:19px;">Available color:Bright Sink</b>
+              </br>
+              <b style="font-size:19px;">Size:7 x 1/4 TO  1 inch</b>
+              </br>
+                <b style="font-size:19px;">Price:250.00PHP</b>
+              </br>
+              <b style="font-size:19px;">in-stock</b>
+              <div>
+                <button class="btn btn-success btn-xs" id="addwidar">Add To Cart</button>
+              </div>
+              </div>
+             </h3>
+               </div>
+               </div>
+              </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+<div id="myModalwidar1" class="modal fade" role="dialog" >
+  <div class="modal-dialog" >
+<div class="modal-body">
+         <div class="row">
+          <div class="col-sm-12">
+            <div id="msglog"></div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  <h2>Wood Screw</h2>
+                </h3>
+              </div>
+              <div class="panel-body">
+               <img src="images/standard/Standard Size Wood Screw Flat Head/4 X 3[8] TO 1 inch.jpg" style="width:100%; height:100%;">
+              <h3>
+              <div style="color:black;">
+                <b style="font-size:19px;">Available color:Black</b>
+              </br>
+              <b style="font-size:19px;">Size:4 x 3/8 TO 1 inch</b>
+              </br>
+                <b style="font-size:19px;">Price:250.00PHP</b>
+              </br>
+              <b style="font-size:19px;">in-stock</b>
+              <div>
+                <button class="btn btn-success btn-xs" id="addwidar1">Add To Cart</button>
+              </div>
+             </h3>
+               </div>
+               </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+<div id="myModalwidar2" class="modal fade" role="dialog" >
+  <div class="modal-dialog" >
+<div class="modal-body">
+         <div class="row">
+          <div class="col-sm-12">
+            <div id="msglog"></div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  <h2>Cap Screw</h2>
+                </h3>
+              </div>
+              <div class="panel-body">
+               <img src="images/standard/Standard Size Cap Screw/M10X15 TO 60 Hexagon Head.jpg" style="width:100%; height:100%;">
+              <h3>
+              <div style="color:black;">
+                <b style="font-size:19px;">Available color:Tentanize</b>
+              </br>
+              <b style="font-size:19px;">Size:M10 x 15 To 60</b>
+              </br>
+                <b style="font-size:19px;">Price:300.00PHP</b>
+              </br>
+              <b style="font-size:19px;">in-stock</b>
+              <div>
+                <button class="btn btn-success btn-xs" id="addwidar2">Add To Cart</button>
+              </div>
+             </h3>
+               </div>
+               </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+<div id="myModalwidar3" class="modal fade" role="dialog" >
+  <div class="modal-dialog" >
+<div class="modal-body">
+         <div class="row">
+          <div class="col-sm-12">
+            <div id="msglog"></div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  <h2>Electric Junction Screw</h2>
+                </h3>
+              </div>
+              <div class="panel-body">
+               <img src="images/standard/Standard Special Size Electrical Junction Screw/6[32] X 1 TO 2 inches Flat Head.jpg" style="width:100%; height:100%;">
+              <h3>
+               <div style="color:black;">
+                <b style="font-size:19px;">Available color:Bright Sink</b>
+              </br>
+              <b style="font-size:19px;">Size:6/32 x 1 To 2 inch</b>
+              </br>
+                <b style="font-size:19px;">Price:300.00PHP</b>
+              </br>
+              <b style="font-size:19px;">in-stock</b>
+              <div>
+                <button class="btn btn-success btn-xs" id="addwidar3">Add To Cart</button>
+              </div>
+             </h3>
+               </div>
+               </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
     <!-- Modal content-->
 
 
@@ -370,8 +476,10 @@ elseif(isset($_SESSION['uid2'])){
 				
 		</div>
 		</div>
-		<div id="pic">
-			
+		    <div id="pic">
+
+          <div id="msgaddwidar"></div>
+      
           <h2 class="block-title" style="margin-left:20px;">
             Products Sales
           </h2>
@@ -379,7 +487,7 @@ elseif(isset($_SESSION['uid2'])){
           <div class="item-carousel" data-toggle="owlcarousel" data-owlcarousel-settings='{"items":4, "pagination":false, "navigation":true, "itemsScaleUp":true}'>
             <div class="item">
               <a href="#" class="overlay-wrapper">
-                <img src="images/product/metal mo.png" alt="Project 1 image" class="img-responsive underlay" style="width:260px;">
+                <img src="images/standard/Standard Size Metal Screw Pan Head/7 X 1[4] TO  1 inch.jpg" alt="Project 1 image" class="img-responsive underlay" style="width:260px;height:140px;">
                 <span class="overlay">
                   <span class="overlay-content"> <span class="h4">Metal Screw</span></span>
                 </span>
@@ -387,15 +495,14 @@ elseif(isset($_SESSION['uid2'])){
               <div class="item-details bg-noise">
                 <h4 class="item-title">
                   <a href="ew.php">Metal Screw</a>
-                  <i style="float:right;color:#35475e;font-size:15px;">17%off</i>
+                  <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-dismiss="modal"  data-target="#myModalwidar" style="float:right;">View Details</button>
                 </h4>
-                <a href="#" class="btn btn-more" style="color:#ff8000;"><i class="fa fa-plus"></i>View Details</a>
-                <del>&#8369;900.00</del>&nbsp;<b>&#8369;700.00</b>
               </div>
             </div>
             <div class="item">
+              <div id="msgaddwidar1"></div>
               <a href="#" class="overlay-wrapper">
-                <img src="images/product/wood mo.png" alt="Project 2 image" class="img-responsive underlay" style="width:260px;">
+                <img src="images/standard/Standard Size Wood Screw Flat Head/4 X 3[8] TO 1 inch.jpg" alt="Project 2 image" class="img-responsive underlay" style="width:260px;height:140px;">
                 <span class="overlay">
                   <span class="overlay-content"> <span class="h4">Wood Screw</span> </span>
                 </span>
@@ -403,37 +510,38 @@ elseif(isset($_SESSION['uid2'])){
               <div class="item-details bg-noise">
                 <h4 class="item-title">
                   <a href="#">Wood Screw</a>
+                  <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-dismiss="modal"  data-target="#myModalwidar1" style="float:right;">View Details</button>
                 </h4>
-                <a href="#" class="btn btn-more" style="color:#ff8000;" data-toggle="modal" data-target="#myModalwidar"><i class="fa fa-plus"></i>Read more</a>
-                <del>&#8369;800.00</del>&nbsp;<b>&#8369;500.00</b>
               </div>
             </div>
             <div class="item">
+              <div id="msgaddwidar2"></div>
               <a href="#" class="overlay-wrapper">
-                <img src="images/showcase/project3.png" alt="Project 3 image" class="img-responsive underlay" style="width:260px;">
+                <img src="images/standard/Standard Size Cap Screw/M10X15 TO 60 Hexagon Head.jpg" alt="M6X10 TO M6X60 Hexagon Head image" class="img-responsive underlay" style="width:260px;height:145px;">
                 <span class="overlay">
-                  <span class="overlay-content"> <span class="h4">Project 3</span> </span>
+                  <span class="overlay-content"> <span class="h4">Cap Screw</span> </span>
                 </span>
               </a>
               <div class="item-details bg-noise">
                 <h4 class="item-title">
-                  <a href="#">Project 3</a>
+                  <a href="#">Cap Screw</a>
+                  <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-dismiss="modal"  data-target="#myModalwidar2" style="float:right;">View Details</button>
                 </h4>
-                <a href="#" class="btn btn-more" style="color:#ff8000;"><i class="fa fa-plus"></i>Read more</a>
               </div>
             </div>
             <div class="item">
+              <div id="msgaddwidar3"></div>
               <a href="#" class="overlay-wrapper">
-                <img src="images/showcase/project4.png" alt="Project 4 image" class="img-responsive underlay" style="width:260px;">
+                <img src="images/standard/Standard Special Size Electrical Junction Screw/6[32] X 1 TO 2 inches Flat Head.jpg" alt="6[30] X 1 TO 2 inches Trus Head" class="img-responsive underlay" style="width:260px;height:145px;">
                 <span class="overlay">
-                  <span class="overlay-content"> <span class="h4">Project 4</span> </span>
+                  <span class="overlay-content"> <span class="h4">Electrical Junction sCREW</span> </span>
                 </span>
               </a>
               <div class="item-details bg-noise">
                 <h4 class="item-title">
-                  <a href="#">Project 4</a>
+                  <a href="#">Junction Screw</a>
+                  <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-dismiss="modal"  data-target="#myModalwidar3" style="float:right;">View Details</button>
                 </h4>
-                <a href="#" class="btn btn-more" style="color:#ff8000;"><i class="fa fa-plus"></i>Read more</a>
               </div>
             </div>
             

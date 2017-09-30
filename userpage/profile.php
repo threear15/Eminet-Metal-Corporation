@@ -125,7 +125,7 @@ if(!isset($_SESSION['uid'])){
           <li>
             <a href="cart_pending.php" id="cart_container">
               <span><i class="fa fa-credit-card-alt"></i></span>
-              <span>Cart&nbsp;<span class="badge">0</span></span>
+              <span>Cart&nbsp;<span class="badge" id="badge2">0</span></span>
             </a>
           </li>
           <li>
@@ -215,7 +215,7 @@ if(!isset($_SESSION['uid'])){
                               <tr>
                                 <td style='padding-top:40px;padding-left:20px;'><b>$p_code</b></td>
                                 <td style='padding-top:40px;padding-left:20px;'><b>$p_name</b></td>                                            
-                                <td><img src='../images/standard/$p_image' style='width:115px;height:100px;'></td>
+                                <td><img src='../images/standard/$p_image' style='width:115px;height:90px;'></td>
                                 <td style='padding-top:40px;padding-left:20px;'><b>$p_headstyle</b></td> 
                                 <td style='padding-top:40px;padding-left:20px;'>$p_size</td>
                                 <td style='padding-top:40px;padding-left:20px;'><b>$p_pieces</b></td>

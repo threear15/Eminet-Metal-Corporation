@@ -123,6 +123,7 @@ $("#send_message1").click(function(event){
     backdrop: 'static',
     keyboard: false
 })
+	
 	$("#activate").click(function(event){
 		event.preventDefault();
 		var approved = $("#approved").val();
@@ -138,5 +139,45 @@ $("#send_message1").click(function(event){
 		$("#add").click(function(event){
 		alert(0);
 	})
+		$("#addwidar").click(function(event){
+		$.ajax({
+			url : "action.php",
+			method : "POST",
+			data : {addwidar:1},
+			success : function(data){
+				$("#msgaddwidar").html(data);
+			} 
+		})
+		})
+				$("#addwidar1").click(function(event){
+		$.ajax({
+			url : "action.php",
+			method : "POST",
+			data : {addwidar:1},
+			success : function(data){
+				$("#msgaddwidar1").html(data);
+			} 
+		})
+		})
+				$("#addwidar2").click(function(event){
+		$.ajax({
+			url : "action.php",
+			method : "POST",
+			data : {addwidar:1},
+			success : function(data){
+				$("#msgaddwidar2").html(data);
+			} 
+		})
+		})
+				$("#addwidar3").click(function(event){
+		$.ajax({
+			url : "action.php",
+			method : "POST",
+			data : {addwidar:1},
+			success : function(data){
+				$("#msgaddwidar3").html(data);
+			} 
+		})
+		})
 });
 

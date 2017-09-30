@@ -1,11 +1,16 @@
 $(document).ready(function() {
 	cat();
 	cart_count();
+	cart_count_admin();
+	count_superadmin();
+	count_customer();
 	cart_checkout();
 	cart_print();
 	personal_info();
 	get_admin_info();
 	get_admin_image();
+	count_admin();
+
 
 
 	$('.nav-trigger').click(function() {
@@ -13,7 +18,17 @@ $(document).ready(function() {
 	
 	});
 	
-
+$("#delete").click(function(event){
+			event.preventDefault();
+			$.ajax({
+				url : "../action.php",
+				method : "POST",
+				data : {delete_all:1},
+				success : function(data){
+					window.location.href='alert.php';
+				}
+			})
+		})
 
 	function get_admin_image(){
 		$.ajax({
@@ -70,6 +85,26 @@ $("#signup_button").click(function(event){
 			}
 		})
 	})
+$("#add_product").click(function(event){
+			event.preventDefault();
+			var p_code = $("#p_code").val();
+			var p_name = $("#p_name").val();
+			var p_price = $("#p_price").val();
+			var p_stock = $("#p_stock").val();
+			var p_color = $("#p_color").val();
+			var p_size = $("#p_size").val();
+			var p_style = $("#p_style").val();
+			var p_pieces = $("#p_pieces").val();
+			var p_image = $("#p_image").val();
+			$.ajax({
+			url		: "add_product_function.php",
+			method	: "POST",
+			data	: {add_product:1,p_code:p_code,p_name:p_name,p_price:p_price,p_stock:p_stock,p_color:p_color,p_size:p_size,p_style:p_style,p_pieces:p_pieces,p_image,p_image},
+			success	: function(data){
+				$("#msg_add_product").html(data);
+			}
+		})
+		})
 $("#continue_shopping").click(function(event){
 	event.preventDefault();
 	var f_name = $("#f_name4").val();
@@ -180,6 +215,11 @@ $("#send_message1").click(function(event){
 	$('#myModal1').on('hidden.bs.modal', function () {
  		location.reload();
 })
+	$('#myModalecho').modal({
+    backdrop: 'static',   // This disable for click outside event
+    keyboard: false        // This for keyboard event
+})
+
 	$('#myactivate').on('hidden.bs.modal', function () {
  		location.reload();
 })
@@ -248,10 +288,50 @@ $("#send_message1").click(function(event){
 				method : "POST",
 				data : {cart_count:1},
 				success : function(data){
-					$(".badge").html(data);
+					$("#badge2").html(data);
 				}
 			})
 			cart_checkout();
+		}
+		function cart_count_admin(){
+			$.ajax({
+				url : "../action.php",
+				method : "POST",
+				data : {cart_count_admin:1},
+				success : function(data){
+					$("#badge_product_admin").html(data);
+				}
+			})
+		}
+		function count_customer(){
+			$.ajax({
+				url : "../action.php",
+				method : "POST",
+				data : {count_customer:1},
+				success : function(data){
+					$("#badge_customer").html(data);
+				}
+			})
+		}
+		function count_superadmin(){
+			$.ajax({
+				url : "../action.php",
+				method : "POST",
+				data : {count_superadmin:1},
+				success : function(data){
+					$("#badge_superadmin").html(data);
+				}
+			})
+		}
+		function count_admin(){
+			$.ajax({
+				url : "../action.php",
+				method : "POST",
+				data : {count_admin:1},
+				success : function(data){
+					$("#badge_admin").html(data);
+				}
+			})
 		}
 		function cart_checkout(){
 			$.ajax({
@@ -323,6 +403,6 @@ $("#send_message1").click(function(event){
 				}
 			})
 		})
-
+		
 });
 

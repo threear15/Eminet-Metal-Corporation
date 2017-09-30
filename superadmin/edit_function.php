@@ -1,7 +1,7 @@
 <?php 
 	include "../connection.php";
 function edit_view() {
-
+	include "../connection.php";
 
 		GLOBAL $con;
 		$id = $_SESSION['edit_id'];
@@ -74,7 +74,7 @@ function edit_view() {
         
         setTimeout(function() {
         swal({
-            title: 'Successfully Login',
+            title: 'Successfully Updated',
             text: '',
             type: 'success'
         }, function() {
@@ -115,8 +115,20 @@ function edit_view() {
 			$id = $_POST['id'];
 			$password = $_POST['password'];
 			$password2 = md5($password);
-
-			$update = "UPDATE user SET password = '$password2' WHERE id='$id'";
+			if(empty($password)){
+				echo"
+					<script>
+		        swal({
+		          title: 'Warning!!!',
+		          text: 'Please Input all the Fields!!!',
+		          type: 'warning',
+		          confirmButtonClass: 'btn-warning',
+		          confirmButtonText: 'Ok'
+		        });
+			</script>
+				";
+			}else{
+				$update = "UPDATE user SET password = '$password2' WHERE id='$id'";
 			$run_query = mysqli_query($con,$update);
 			echo"
 				 <script>
@@ -133,6 +145,359 @@ function edit_view() {
     }, 1);
 			</script>
 			";
+			}
+
+			
+		}
+	}
+function edit_product23(){
+
+		GLOBAL $con;
+		$id = $_SESSION['edit_id_product'];
+		$open =mysqli_query($con,"SELECT * FROM product WHERE product_id = '$id'");
+		while ($row = mysqli_fetch_assoc($open)) {
+			echo "
+				<div class='row'>
+				<form method='POST'>
+				<div class='col-md-4'><label>Product Code</label><input type='text' class='form-control' name='product_code' value='".$row['product_code']."' disabled></div>
+				<div class='col-md-4'><label>Product Name</label><input type='text' class='form-control' name='product_name' value='".$row['product_name']."'></div>
+				<div class='col-md-4'><label>Product Price</label><input type='text' class='form-control' name='product_price' value='".$row['product_price']."'></div>
+				</div>
+				<div class='row'>
+				<div class='col-md-4'><label>Product Style</label><input type='text' class='form-control' name='product_headstyle' value='".$row['product_headstyle']."'></div>
+				<div class='col-md-4'><label>Product Color</label><input type='text' class='form-control' name='product_color' value='".$row['product_color']."'></div>
+				<div class='col-md-4'><label>Product Size</label><input type='text' class='form-control' name='product_size' value='".$row['product_size']."'></div>
+				</div>
+				<div class='row'>
+				<div class='col-md-4'><label>Product Stocks</label><input type='text' class='form-control' name='product_stocks' value='".$row['product_stocks']."'></div>
+				<div class='col-md-4'><label>Product Pieces</label><input type='text' class='form-control' name='product_pieces' value='".$row['product_pieces']."'></div>
+				<div class='col-md-4'><label>Date Modified</label><input type='text' class='form-control' name='date1' value='".$row['date1']."'></div>
+				</div>
+				<div><br></div>
+					<div class='row'>
+					<div class='col-md-4'></div>
+					<div class='col-md-4'>
+					<form method='POST'>
+					<input type='hidden' name='id' value='".$row['product_id']."'>
+						<button type='submit' name='update-product' class='btn btn-success'>Update Product</button>
+					</div>
+					<div class='col-md-4'></div>
+					</div>
+				</form>
+			";
+		}if(isset($_POST['update-product'])){
+			$id = $_POST['id'];
+			$product_name = $_POST['product_name'];
+			$product_price = $_POST['product_price'];
+			$product_headstyle = $_POST['product_headstyle'];
+			$product_color = $_POST['product_color'];
+			$product_size = $_POST['product_size'];
+			$product_stocks = $_POST['product_stocks'];
+			$product_pieces = $_POST['product_pieces'];
+			$date23 = $_POST['date1'];
+				$update = "UPDATE product SET product_name ='$product_name',product_price='$product_price',product_headstyle='$product_headstyle',
+							product_color ='$product_color',product_size='$product_size',product_stocks='$product_stocks',product_pieces='$product_pieces'
+							WHERE product_id='$id'";
+				$run_query1 = mysqli_query($con,$update);
+				if($run_query1){
+					echo"
+						<script>
+			
+        
+        setTimeout(function() {
+        swal({
+            title: 'Successfully Updated',
+            text: '',
+            type: 'success'
+        }, function() {
+            window.location = 'customer_modify.php';
+        });
+    }, 1);
+			</script>
+					";			
+				}
+			
+		}
+
+}
+function edit_superadmin() {
+
+
+		GLOBAL $con;
+		$id = $_SESSION['edit_id_admin'];
+		$open =mysqli_query($con,"SELECT * FROM super_admin WHERE id =".$_SESSION['edit_id_admin']);
+		while ($row = mysqli_fetch_assoc($open)) {
+
+			echo "
+
+				<form method='POST'>
+				<div class='row'>
+				<div class='col-md-4'><label>First Name</label><input type='text' class='form-control' name='f_name' value='".$row['f_name']."'></div>
+				<div class='col-md-4'><label>Middle Name</label><input type='text' class='form-control' name='m_name' value='".$row['m_name']."'></div>
+				<div class='col-md-4'><label>Last Name</label><input type='text' class='form-control' name='l_name' value='".$row['l_name']."'></div>
+				</div>
+				<div class='row'>
+				<div class='col-md-4'><label>Role</label><select class='selectpicker form-control' name='role'>
+					<option>".$row['role']."</option>
+                  <option>Super Admin</option>
+                  <option>Admin</option></div></select></div>
+				<div class='col-md-4'><label>Gender</label><select class='selectpicker form-control' name='gender'>
+					<option>".$row['gender']."</option>
+                  <option>Male</option>
+                  <option>Female</option></div></select></div>
+				<div class='col-md-4'><label>Age</label><input type='text' class='form-control' name='age' value='".$row['age']."'></div>
+				</div>
+				<div><br></div>
+				<div class='row'>
+					<div class='col-md-12'>
+						<input type='text' class='form-control' name='user' value='".$row['username']."'>
+					</div>
+				</div>
+				<div><br></div>
+				<form method='POST'>
+					<input type='text' name='id' value='".$row['id']."'>
+					<button type='submit' class='btn btn-success' name='btn-update1' value='update'>UPDATE</button>
+					
+					</form>
+				</td>
+			";	
+		}
+
+		if (isset($_POST['btn-update1'])) { 
+
+			$id = $_POST['id'];
+			$f_name = $_POST['f_name'];
+			$m_name = $_POST['m_name'];
+			$l_name = $_POST['l_name'];
+			$role = $_POST['role'];
+			$gender = $_POST['gender'];
+			$age = $_POST['age'];
+			$user = $_POST['user'];
+			
+
+
+			$query = mysqli_query($con,"UPDATE super_admin SET f_name='$f_name',m_name='$m_name',l_name='$l_name' 
+									,role='$role',gender='$gender',age='$age',username='$user' WHERE id ='$id'");
+			echo"
+                    <script>
+			
+        
+        setTimeout(function() {
+        swal({
+            title: 'Successfully Updated',
+            text: '',
+            type: 'success'
+        }, function() {
+            window.location = 'superadmin_modify.php';
+        });
+    }, 1);
+			</script>
+                    ";
+
+		}
+		
+
+	}
+	function password_superadmin(){
+		GLOBAL $con;
+		$id = $_SESSION['edit_id_admin'];
+		$sql = "SELECT * FROM super_admin WHERE id ='$id'";
+		$run_query = mysqli_query($con,$sql);
+		while($row=mysqli_fetch_array($run_query)){
+
+			echo "
+
+				<form method='POST'>
+				<div class='row'>
+				<div class='col-md-12'><label>Current Password(Converted to md5)</label><input type='text' class='form-control'  value='".$row['password']."' disabled></div>
+				<div class='col-md-12'><label>Type New Password</label><input type='text' class='form-control' name='password' value=''></div>
+
+				</div>
+				<div><br></div>
+				<form method='POST'>
+					<input type='hidden' name='id' value='".$row['id']."'>
+					<button type='submit' class='btn btn-success' name='btn-update' value='update'>UPDATE</button>
+					</form>
+				</td>
+			";	
+		}
+		if(isset($_POST['btn-update'])){
+			$id = $_POST['id'];
+			$password = $_POST['password'];
+			$password2 = md5($password);
+			if(empty($password)){
+				echo"
+					<script>
+		        swal({
+		          title: 'Warning!!!',
+		          text: 'Please Input all the Fields!!!',
+		          type: 'warning',
+		          confirmButtonClass: 'btn-warning',
+		          confirmButtonText: 'Ok'
+		        });
+			</script>
+				";
+			}else{
+				$update = "UPDATE super_admin SET password = '$password2' WHERE id='$id'";
+			$run_query = mysqli_query($con,$update);
+			echo"
+				 <script>
+			
+        
+        setTimeout(function() {
+        swal({
+            title: 'Successfully Updated',
+            text: '',
+            type: 'success'
+        }, function() {
+            window.location = 'superadmin_modify.php';
+        });
+    }, 1);
+			</script>
+			";
+			}
+
+			
+		}
+	}
+	function edit_admin() {
+
+
+		GLOBAL $con;
+		$id = $_SESSION['edit_id_admin1'];
+		$open =mysqli_query($con,"SELECT * FROM super_admin WHERE id =".$_SESSION['edit_id_admin1']);
+		while ($row = mysqli_fetch_assoc($open)) {
+
+			echo "
+
+				<form method='POST'>
+				<div class='row'>
+				<div class='col-md-4'><label>First Name</label><input type='text' class='form-control' name='f_name' value='".$row['f_name']."'></div>
+				<div class='col-md-4'><label>Middle Name</label><input type='text' class='form-control' name='m_name' value='".$row['m_name']."'></div>
+				<div class='col-md-4'><label>Last Name</label><input type='text' class='form-control' name='l_name' value='".$row['l_name']."'></div>
+				</div>
+				<div class='row'>
+				<div class='col-md-4'><label>Role</label><select class='selectpicker form-control' name='role'>
+					<option>".$row['role']."</option>
+                  <option>Super Admin</option>
+                  <option>Admin</option></div></select></div>
+				<div class='col-md-4'><label>Gender</label><select class='selectpicker form-control' name='gender'>
+					<option>".$row['gender']."</option>
+                  <option>Male</option>
+                  <option>Female</option></div></select></div>
+				<div class='col-md-4'><label>Age</label><input type='text' class='form-control' name='age' value='".$row['age']."'></div>
+				</div>
+				<div><br></div>
+				<div class='row'>
+					<div class='col-md-12'>
+						<input type='text' class='form-control' name='user' value='".$row['username']."'>
+					</div>
+				</div>
+				<div><br></div>
+				<form method='POST'>
+					<input type='text' name='id' value='".$row['id']."'>
+					<button type='submit' class='btn btn-success' name='btn-update1' value='update'>UPDATE</button>
+					
+					</form>
+				</td>
+			";	
+		}
+
+		if (isset($_POST['btn-update1'])) { 
+
+			$id = $_POST['id'];
+			$f_name = $_POST['f_name'];
+			$m_name = $_POST['m_name'];
+			$l_name = $_POST['l_name'];
+			$role = $_POST['role'];
+			$gender = $_POST['gender'];
+			$age = $_POST['age'];
+			$user = $_POST['user'];
+			
+
+
+			$query = mysqli_query($con,"UPDATE super_admin SET f_name='$f_name',m_name='$m_name',l_name='$l_name' 
+									,role='$role',gender='$gender',age='$age',username='user' WHERE id ='$id'");
+			echo"
+                    <script>
+			
+        
+        setTimeout(function() {
+        swal({
+            title: 'Successfully Updated',
+            text: '',
+            type: 'success'
+        }, function() {
+            window.location = 'admin_modify.php';
+        });
+    }, 1);
+			</script>
+                    ";
+
+		}
+		
+
+	}
+	function password_admin(){
+		GLOBAL $con;
+		$id = $_SESSION['edit_id_admin1'];
+		$sql = "SELECT * FROM super_admin WHERE id ='$id'";
+		$run_query = mysqli_query($con,$sql);
+		while($row=mysqli_fetch_array($run_query)){
+
+			echo "
+
+				<form method='POST'>
+				<div class='row'>
+				<div class='col-md-12'><label>Current Password(Converted to md5)</label><input type='text' class='form-control'  value='".$row['password']."' disabled></div>
+				<div class='col-md-12'><label>Type New Password</label><input type='text' class='form-control' name='password' value=''></div>
+
+				</div>
+				<div><br></div>
+				<form method='POST'>
+					<input type='hidden' name='id' value='".$row['id']."'>
+					<button type='submit' class='btn btn-success' name='btn-update' value='update'>UPDATE</button>
+					</form>
+				</td>
+			";	
+		}
+		if(isset($_POST['btn-update'])){
+			$id = $_POST['id'];
+			$password = $_POST['password'];
+			$password2 = md5($password);
+			if(empty($password)){
+				echo"
+					<script>
+		        swal({
+		          title: 'Warning!!!',
+		          text: 'Please Input all the Fields!!!',
+		          type: 'warning',
+		          confirmButtonClass: 'btn-warning',
+		          confirmButtonText: 'Ok'
+		        });
+			</script>
+				";
+			}else{
+				$update = "UPDATE super_admin SET password = '$password2' WHERE id='$id'";
+			$run_query = mysqli_query($con,$update);
+			echo"
+				 <script>
+			
+        
+        setTimeout(function() {
+        swal({
+            title: 'Successfully Updated',
+            text: '',
+            type: 'success'
+        }, function() {
+            window.location = 'admin_modify.php';
+        });
+    }, 1);
+			</script>
+			";
+			}
+
+			
 		}
 	}
 ?>

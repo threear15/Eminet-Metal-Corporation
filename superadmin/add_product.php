@@ -1,8 +1,32 @@
-<?php
+<?php 
 session_start();
-if(!isset($_SESSION['uid'])){
-  header("location:../index.php");
+if(!isset($_SESSION['uid_admin'])){
+	header("location:s_admin_login.php");
 }
+require_once('bdd.php');
+
+
+$sql = "SELECT id, title, start, end, color FROM events ";
+
+$req = $bdd->prepare($sql);
+$req->execute();
+
+$events = $req->fetchAll();
+function CreateRandomCode() {
+        $chars = "A8B7C62533A23241D51E566F87G7H8I8J9K90L0M5NO4P3Q22R26S710TU4V984W5234X24342322655446Y7Z";
+        srand((double)microtime()*1000000);
+        $i = 0;
+        $code = '' ;
+        while ($i <= 10) {
+        $num = rand() % 33;
+        $tmp = substr($chars, $num, 1);
+        $code = $code . $tmp;
+        $i++;
+
+        }
+        return $code;
+        }
+        $codex = 'EMC'. CreateRandomCode();
 ?>
 
 <!DOCTYPE html>
@@ -12,9 +36,9 @@ if(!isset($_SESSION['uid'])){
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Eminent Metal Corporation</title>
-       <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
              <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> 
+  <link href='../css/fullcalendar.css' rel='stylesheet' />
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="../dist/sweetalert.js"></script>
@@ -46,11 +70,22 @@ if(!isset($_SESSION['uid'])){
     <script src="../mains.js"></script>
 
 
-    
+    <style>
+    #calendar {
+		max-width: 800px;
+	}
+	.col-centered{
+		float: none;
+		margin: 0 auto;
+	}
+  div.dataTables_wrapper {
+        margin-bottom: 3em;
+    }
+    </style>
 
   </head>
- 
   <body>
+
     <div class="header">
       <div class="logo">
         <i class="fa fa-tachometer" style="color:#fff;"></i>
@@ -61,7 +96,7 @@ if(!isset($_SESSION['uid'])){
           
               <a href="#" id="go">
               <span><i class="fa fa-user"></i></span>
-              <span style="color:white;"><?php echo "".$_SESSION['name'];?></span>
+              <span style="color:white;"><?php echo "".$_SESSION['name_admin'];?></span>
             </a>
             
         </nav>
@@ -74,61 +109,77 @@ if(!isset($_SESSION['uid'])){
       <nav>
         <ul>
           <li class="active">
-            <a href="../index.php">
+            <a href="index.php">
               <span><i class="fa fa-user"></i></span>
-              <span>Home</span>
+              <span>Dashboard</span>
             </a>
           </li>
-          <div id="get_category1"></div>
-          <!--<li class="dropdown">
+          
+          <li class="dropdown">
             <a href="#" class="dropbtn">
 
               <span><i class="fa fa-envelope"></i></span>
-              <span>Products</span>
+              <span>Modify Accounts</span>
 
             </a>
             
             <ul>
                 
             <li class="dropdown-content" style="width:180px;">
-               <a href="tryit_183.htm#">Standard Products</a>
-               <a href="tryit_183.htm#">Special Products</a>
-                
+               <a href="customer_modify.php">Customers</a>
+               <a href="tryit_183.htm#" data-toggle="modal" data-target="#customer_edit">Admin</a>
+                <a href="tryit_183.htm#">Super Admin</a>
               </li>
             </ul>
-          </li>-->
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropbtn">
+
+              <span><i class="fa fa-envelope"></i></span>
+              <span>Sales</span>
+
+            </a>
+            
+            <ul>
+                
+            <li class="dropdown-content" style="width:180px;">
+               <a href="tryit_183.htm#">Every Month</a>
+               <a href="tryit_183.htm#">Every Year</a>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropbtn">
+
+              <span><i class="fa fa-envelope"></i></span>
+              <span>Modify Products</span>
+
+            </a>
+            
+            <ul>
+                
+            <li class="dropdown-content" style="width:180px;">
+               <a href="add_product.php">Add Product</a>
+                <a href="tryit_183.htm#">Update Product</a>
+                <a href="tryit_183.htm#">Delete Product</a>
+
+              </li>
+            </ul>
+          </li>
           <li>
+            <a href="index1.php">
+              <span><i class="fa fa-user"></i></span>
+              <span>Delivery Schedule</span>
+            </a>
+          </li>
+            <li>
             <a href="#">
-              <span><i class="fa fa-bar-chart"></i></span>
-              <span>About Us</span>
+              <span><i class="fa fa-user"></i></span>
+              <span>Payment Received</span>
             </a>
           </li>
           <li>
-            <a href="#">
-              <span><i class="fa fa-credit-card-alt"></i></span>
-              <span>Contact Us</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <span><i class="fa fa-credit-card-alt"></i></span>
-              <span>FAQ's</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <span><i class="fa fa-credit-card-alt"></i></span>
-              <span>Terms & Conditions</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" id="cart_container">
-              <span><i class="fa fa-credit-card-alt"></i></span>
-              <span>Cart&nbsp;<span class="badge" id="badge2">0</span></span>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="sweet-5" onclick="_gaq.push(['_trackEvent', 'example', 'try', 'sweet-5']);">
+            <a href="#" class="sweet-5" onclick="_gaq.push(['_trackEvent', 'example', 'try', 'sweet-5']);" id="logout_me">
               <span><i class="fa fa-credit-card-alt"></i></span>
               <span>Logout</span>
             </a>
@@ -140,96 +191,69 @@ if(!isset($_SESSION['uid'])){
     <div class="main-content">
       <div class="title">
         &nbsp;<div id="msg12"></div>
-        
       </div>        
     </div>
+    <div class="container">
+      <div id="edit_customer"></div>
+ 
+           
+          
+    </div>
+   
 
          <div id="slide">
-          
-          </div>
-          <div><br></div>
-       
-            <div class="container" id='pic' style='width:85%;'>
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="panel panel-primary">
-                    <div class="panel-heading">CART CHECKOUT</div>
-                    <div class="panel-body">
-                      <center><div class="row">
-                        <div class="col-md-1"><b>Product Code</b></div>
-                        <div class="col-md-1"><b>Product Name</b></div>
-                        <div class="col-md-1"><b>Product Image</b></div>
-                        <div class="col-md-2"><b>Product Size</b></div>
-                        <div class="col-md-1"><b>Product Quantity</b></div>
-                        <div class="col-md-1"><b>Product Price</b></div>
-                        <div class="col-md-2"><b>Product Color</b></div>
-                        <div class="col-md-1"><b>Total Price</b></div>
-                        <div class="col-md-2"><b>Action</b></div>
-                      </div><br></center>
-                      <div id='cart_checkout'></div>
-                        <!--<center><div class="row">
-                        <div class="col-md-1"><b>EMC111</b></div>
-                        <div class="col-md-2"><b>Screw</b></div>
-                        <div class="col-md-2"><b><img src='../images/standard/M6X10 TO M6X60 Hexagon Head.jpg' style='width:60px;height:60px;'></b></div>
-                        <div class="col-md-1"><input type='number' min='1' class='form-control' value='1'></div>
-                        <div class="col-md-1"><input type='text' class='form-control' value='800' disabled></div>
-                        <div class="col-md-2"><select class='selectpicker form-control'><option>Black</option><option>Silver</option><option>Tetanize</option></select></div>
-                        <div class="col-md-1"><input type='text' class='form-control' value='800' disabled></div>
-                        <div class="col-md-2">
-                          <div class="btn-group">
-                            <a href='#' class='btn btn-danger'><span class='glyphicon glyphicon-trash'></span></a>
-                            <a href='#' class='btn btn-primary'><span class='glyphicon glyphicon-ok-sign'></span></a>
-                          </div>
-                        </div>
-                      </div></center>-->
-                    </div>
-                    <div class="panel-footer"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-       </div>
-          &nbsp;<div id="msgremove"></div>
-        &nbsp;<div id="msgupdate"></div>
-   <div id="msgadd"></div>
-<div id="myModal1" class="modal fade" role="dialog">
+<div id="msg_add_product"></div>
+
+          <div id="myModalverify" class="modal fade" role="dialog">
   <div class="modal-dialog">
-<div class="modal-body">
+<center><div class="modal-body">
+  
          <div class="row">
+         
           <div class="col-sm-12">
+            <div id="msglog"></div>
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h3 class="panel-title">
-                  Login <a href="#" class="fa fa-fw fa-times" data-dismiss="modal" style="float:right;"></a>
+                 Add Product<a href="customer_modify.php" class="fa fa-fw fa-times" style="float:right;"></a>
                 </h3>
               </div>
               <div class="panel-body">
-                <form accept-charset="UTF-8" role="form">
-                  <fieldset>
-                    <div class="form-group">
-                      <div class="input-group input-group-lg">
-                        <span class="input-group-addon"><i class="fa fa-fw fa-envelope"></i></span>
-                        <input type="text" class="form-control" name="email" id="gmail" placeholder="Email">
+                <form method="POST">
+                  <div class="row">
+                    <div class="col-md-3"><label>Product Code</label><input type="text" class="form-control" name="p_code" id="field1"></div>
+                    <div class="col-md-3"><label>Product Name</label><input type="text" class="form-control" name="p_name" ></div>
+                    <div class="col-md-3"><label>Product Price</label><input type="text" class="form-control" name="p_price" ></div>
+                    <div class="col-md-3"><label>Product Stocks</label><input type="text" class="form-control" name="p_stock" ></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3"><label>Product Color</label><input type="text" class="form-control" name="p_color" ></div>
+                    <div class="col-md-3"><label>Product Size</label><input type="text" class="form-control" name="p_size" ></div>
+                    <div class="col-md-3"><label>Product Style</label><input type="text" class="form-control" name="p_style" ></div>
+                    <div class="col-md-3"><label>Product Pieces</label><input type="text" class="form-control" name="p_pieces" ></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Select Product Image</label>
+                      <input type='file' name="p_image" id="p_image" class="form-control">
+                    </div>
+                  </div>
+                  <div><br></div>
+                  <form method="POST">
+                  <div>
+                     <button type="submit" name="btn_addproduct" class="btn btn-success">ADD PRODUCT</button>
+                    
+            
+                  </div>
+                  <?php 
+            include "add_product_function.php";
 
-                        <input type="hidden" class="form-control" id="status" value="Approved">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <div class="input-group input-group-lg">
-                        <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
-                        <input type="password" class="form-control" id="password12" name="password" placeholder="Password">
-                      </div>
-                    </div>
-                    <div class="checkbox">
-                      <label>
-                        <input name="remember" type="checkbox" value="Remember Me">
-                        Remember Me 
-                      </label>
-                    </div>
-                    <input class="btn btn-lg btn-primary btn-block" type="submit" id="login" name="login" value="Login">
-                  </fieldset>
-                </form>
-                <p class="m-b-0 m-t">Not signed up? <a href="user_reg.php">Sign up here</a>.</p>
+            add_product(); 
+            ?>
+                  </form>
+            
+   
+               
                 <div class="credits">
                   <!-- 
                     All the links in the footer should remain intact. 
@@ -250,9 +274,25 @@ if(!isset($_SESSION['uid'])){
   </div>
 </div>
 
+</div>
+
+<script type="text/javascript">
+    $(window).on('load',function(){
+        $('#myModal').modal('show');
+    });
+</script>
+    <div id="msg_print_receipt"></div>
+   <div id="msgadd"></div>
+
+
   
       <div id="msg"></div>
 <a href="#top" class="scrolltop">Top</a> 
+<script>
+$(document).ready(function() {
+    $('table.display').DataTable();
+} );
+</script>
 <script>
   document.querySelector('.sweet-1').onclick = function(){
         swal("Here's a message!");
@@ -287,7 +327,7 @@ document.querySelector('.sweet-5').onclick = function(){
         },
         function(isConfirm){
           if (isConfirm){
-            window.location.href="../logout.php";
+            window.location.href="logout_admin.php";
 
           } 
           else {
@@ -296,6 +336,15 @@ document.querySelector('.sweet-5').onclick = function(){
         });
       };
 </script>
+<script src="../js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../js/bootstrap.min.js"></script>
+	
+	<!-- FullCalendar -->
+	<script src='../js/moment.min.js'></script>
+	<script src='../js/fullcalendar.min.js'></script>
+	
 
   
   
@@ -330,6 +379,8 @@ document.querySelector('.sweet-5').onclick = function(){
 <!-- AdminLTE for demo purposes -->
 <script src="../dist/js/demo.js"></script>
 <script src="../plugins/pace/pace.min.js"></script>
-
+<script type="text/javascript">
+    document.getElementById('field1').value = Math.floor(Math.random() * 111111,99999) ;
+</script>
   </body>
 </html>

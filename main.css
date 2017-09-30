@@ -88,7 +88,7 @@ body {
 	display: none;
 }
 #reg_sidenav{
-	height: 117vh;
+	height: 200vh;
 }
 .side-nav.visible {
 	display: block;

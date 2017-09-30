@@ -206,7 +206,7 @@ $events = $req->fetchAll();
 </div>-->
 
          <div id="slide">
-          <div id="myModal" class="modal fade" role="dialog">
+          <div id="myModalverify" class="modal fade" role="dialog">
   <div class="modal-dialog">
 <center><div class="modal-body" style="width:800px;">
 

@@ -1,7 +1,7 @@
 <?php 
 session_start();
 if(!isset($_SESSION['uid_admin'])){
-	header("location:s_admin_login.php");
+  header("location:s_admin_login.php");
 }
 require_once('bdd.php');
 
@@ -25,6 +25,9 @@ $events = $req->fetchAll();
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
              <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> 
   <link href='../css/fullcalendar.css' rel='stylesheet' />
+  <link rel="stylesheet" type="text/css" href="../js/jquery.dataTables.min.css">
+  <script src="../js/jquery-1.12.4.js"></script>
+  <script src="../js/jquery.dataTables.min.js"></script>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="../dist/sweetalert.js"></script>
@@ -58,12 +61,12 @@ $events = $req->fetchAll();
 
     <style>
     #calendar {
-		max-width: 800px;
-	}
-	.col-centered{
-		float: none;
-		margin: 0 auto;
-	}
+    max-width: 800px;
+  }
+  .col-centered{
+    float: none;
+    margin: 0 auto;
+  }
   div.dataTables_wrapper {
         margin-bottom: 3em;
     }
@@ -112,7 +115,7 @@ $events = $req->fetchAll();
             <ul>
                 
             <li class="dropdown-content" style="width:180px;">
-               <a href="customer_modify.php">Customers</a>
+               <a href="tryit_183.htm#">Customers</a>
                <a href="tryit_183.htm#" data-toggle="modal" data-target="#customer_edit">Admin</a>
                 <a href="tryit_183.htm#">Super Admin</a>
               </li>
@@ -146,7 +149,7 @@ $events = $req->fetchAll();
                 
             <li class="dropdown-content" style="width:180px;">
                <a href="add_product.php">Add Product</a>
-                <a href="tryit_183.htm#">Update Product</a>
+                <a href="product_modify.php">Edit Product</a>
                 <a href="tryit_183.htm#">Delete Product</a>
 
               </li>
@@ -205,53 +208,113 @@ $events = $req->fetchAll();
   </div>
 </div>-->
 
-         <div id="slide">
-          <div id="myModalverify" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-<center><div class="modal-body">
+         <div id="slide" class="table-responsive">
+          <script>
 
-         <div class="row">
-          <div class="col-sm-12">
-            <div id="msglog"></div>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title">
-                  Edit Customer Details<a href="customer_modify.php" class="fa fa-fw fa-times" style="float:right;"></a>
-                </h3>
-              </div>
-              <div class="panel-body">
-     
-            <?php 
-            include "edit_function.php";
-            password_customer();
-            ?>
-   
-               
-                <div class="credits">
-                  <!-- 
-                    All the links in the footer should remain intact. 
-                    You can delete the links only if you purchased the pro version.
-                    Licensing information: https://bootstrapmade.com/license/
-                    Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Flexor
-                  -->
-                  <a href="#">Eminent Metal Corporation</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    <!-- Modal content-->
+        swal({
+          title: 'Are you sure you want to delete this item?',
+          text: ' ',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonClass: 'btn-danger',
+          confirmButtonText: 'YES',
+          cancelButtonText: 'No, Cancel Please!',
+          closeOnConfirm: false,
+          closeOnCancel: false
+        },
+        function(isConfirm){
+          if (isConfirm){
+            window.location.href='delete_function.php';
 
+          } 
+          else {
+            window.location.href='product_modify.php';
+          }
+        });
 
-  </div>
-</div>
-</div>
-<script type="text/javascript">
-    $(window).on('load',function(){
-        $('#myModal').modal('show');
-    });
 </script>
+              <div style="width:100%;">
+                  <table id="" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Product Code</th>
+                <th>Product Name</th>
+                <th>Product Stocks</th>
+                <th>Product Price</th>
+                <th>id</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Product Code</th>
+                <th>Product Name</th>
+                <th>Product Stocks</th>
+                <th>Product Price</th>
+                <th>id</th>
+                <th>Action</th>
+            </tr>
+        </tfoot>
+        <tbody>
+          <?php
+          include "../connection.php";
+          $sql = "SELECT * FROM product";
+            $run_query = mysqli_query($con,$sql);
+            while($row=mysqli_fetch_array($run_query)){
+              $id = $row['product_id'];
+              $p_code = $row['product_code'];
+              $p_name = $row['product_name'];
+              $p_stock = $row['product_stocks'];
+              $p_price = $row['product_price'];
+              echo'
+             
+                <tr>
+                <td>'.$p_code.'</td>
+                <td>'.$p_name.'</td>
+                <td>'.$p_stock.'</td>
+                <td>'.$p_price.'</td>
+                
+                <form method="POST">
+                <td><input type="text" name="id" value="'.$id.'"</td>
+                <td><button type="submit" class="btn btn-primary btn-xs" name="btn-edit-product">EDIT</button>
+                <button type="submit" class="btn btn-danger btn-xs"  onclick="_gaq.push(["_trackEvent", "example", "try",]);" name="btn-delete-product">DELETE</button></td>
+                </form>
+                </tr>
+               
+                ';
+                  }
+                  if (isset($_POST['btn-edit-product'])) {
+                    $id = $_POST['id'];
+                    $_SESSION['edit_id_product'] = $id;
+                    echo"
+                    <script>window.location.href='edit_product.php';</script>
+                    ";
+                  }
+                  if (isset($_POST['btn-delete-product'])) {
+                    $id = $_POST['id'];
+                    $_SESSION['delete_id_product'] = $id;
+                    $id1 =$_SESSION['delete_id_product'];
+                      echo "
+                      <script>window.location.href='sweet.php';</script>
+                      ";
+                    
+                  }
+                 ?>
+                  <!--
+                <td>Three Ar A. Sempron</td>
+                <td>sempronthreear@gmail.com</td>
+                <td>Male</td>
+                <td>27</td>
+                <td><button class="btn btn-primary btn-xs">EDIT</button></td>
+            -->
+            
+        </tbody>
+    </table>
+              </div>
+              
+       </div>
+               </div>
+
     <div id="msg_print_receipt"></div>
    <div id="msgadd"></div>
 
@@ -311,11 +374,11 @@ document.querySelector('.sweet-5').onclick = function(){
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../js/bootstrap.min.js"></script>
-	
-	<!-- FullCalendar -->
-	<script src='../js/moment.min.js'></script>
-	<script src='../js/fullcalendar.min.js'></script>
-	
+  
+  <!-- FullCalendar -->
+  <script src='../js/moment.min.js'></script>
+  <script src='../js/fullcalendar.min.js'></script>
+  
 
   
   
@@ -353,3 +416,6 @@ document.querySelector('.sweet-5').onclick = function(){
 
   </body>
 </html>
+
+
+ 
