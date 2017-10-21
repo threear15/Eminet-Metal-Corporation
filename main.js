@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	cat();
+	get_faq();
 
 	$('.nav-trigger').click(function() {
 		$('.side-nav').toggleClass('visible');
@@ -179,5 +180,15 @@ $("#send_message1").click(function(event){
 			} 
 		})
 		})
+		function get_faq(){
+			$.ajax({
+				url : "action.php",
+				method : "POST",
+				data : {get_faq:1},
+				success : function(data){
+					$("#get_faq_msg").html(data);
+				}
+			})
+		}
 });
 

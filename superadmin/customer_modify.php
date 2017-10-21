@@ -47,6 +47,7 @@ $events = $req->fetchAll();
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="../main.css">
     <link rel="stylesheet" type="text/css" href="../pic.css">
+    <link rel="stylesheet" type="text/css" href="../css/style1.css">
 
 <script type="text/javascript" src="../js/js/jquery-1.11.2.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
@@ -99,7 +100,7 @@ $events = $req->fetchAll();
         <ul>
           <li class="active">
             <a href="index.php">
-              <span><i class="fa fa-user"></i></span>
+              <span><i class="fa fa-dashboard"></i></span>
               <span>Dashboard</span>
             </a>
           </li>
@@ -107,7 +108,7 @@ $events = $req->fetchAll();
           <li class="dropdown">
             <a href="#" class="dropbtn">
 
-              <span><i class="fa fa-envelope"></i></span>
+              <span><i class="fa fa-edit"></i></span>
               <span>Modify Accounts</span>
 
             </a>
@@ -125,7 +126,7 @@ $events = $req->fetchAll();
           <li class="dropdown">
             <a href="#" class="dropbtn">
 
-              <span><i class="fa fa-envelope"></i></span>
+              <span><i class="fa fa-exchange"></i></span>
               <span>Sales</span>
 
             </a>
@@ -133,15 +134,21 @@ $events = $req->fetchAll();
             <ul>
                 
             <li class="dropdown-content" style="width:180px;">
-               <a href="tryit_183.htm#">Every Month</a>
-               <a href="tryit_183.htm#">Every Year</a>
+               <a href="sales_month.php">
+                <span><i class="fa fa-calendar"></i></span>
+              <span>Every Month</span>
+               </a>
+               <a href="sales_year.php">
+                <span><i class="fa fa-calendar"></i></span>
+              <span>Every Year</span>
+               </a>
               </li>
             </ul>
           </li>
           <li class="dropdown">
             <a href="#" class="dropbtn">
 
-              <span><i class="fa fa-envelope"></i></span>
+              <span><i class="fa fa-edit"></i></span>
               <span>Modify Products</span>
 
             </a>
@@ -151,28 +158,57 @@ $events = $req->fetchAll();
             <li class="dropdown-content" style="width:180px;">
                <a href="add_product.php">Add Product</a>
                 <a href="product_modify.php">Edit Product&nbsp;<?php error_reporting(0); ?><span class='badge' id="badge_product_admin">0</span></a>
-                <a href="#" id="delete">Delete All Product</a>
+                   
+            
+                  
 
-
-              </form>
               </li>
             </ul>
           </li>
           <li>
             <a href="index1.php">
-              <span><i class="fa fa-user"></i></span>
+              <span><i class="fa fa-calendar"></i></span>
               <span>Delivery Schedule</span>
             </a>
           </li>
             <li>
-            <a href="#">
-              <span><i class="fa fa-user"></i></span>
+            <a href="payment_received.php">
+              <span><i class="fa fa-credit-card"></i></span>
               <span>Payment Received</span>
             </a>
           </li>
           <li>
-            <a href="#" class="sweet-5" onclick="_gaq.push(['_trackEvent', 'example', 'try', 'sweet-5']);" id="logout_me">
-              <span><i class="fa fa-credit-card-alt"></i></span>
+            <a href="add_customer.php">
+              <span><i class="fa fa-user-md"></i></span>
+              <span>Add Customer</span>
+            </a>
+          </li>
+          
+            <li class="dropdown">
+            <a href="#">
+              <span><i class="fa fa-cogs"></i></span>
+              <span>Modify FAQ's</span>
+            </a>
+            <ul>
+                
+            <li class="dropdown-content" style="width:180px;">
+               <a href="#" data-toggle="modal" data-target="#myModalfaq">Add FAQ's</a>
+               <a href="edit_faq.php">Edit FAQ's</a>
+               <a href="#" data-toggle="modal" data-target="#myModalfaqcode">FAQ's code</a>
+               
+
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="messages.php">
+              <span><i class="fa fa-comment"></i></span>
+              <span>Messages&nbsp;<?php error_reporting(0);?><span class='badge' id='badge_messages'>0</span></span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="sweet-5" onclick="_gaq.push(['_trackEvent', 'example', 'try', 'sweet-5']);">
+              <span><i class="fa fa-sign-out"></i></span>
               <span>Logout</span>
             </a>
           </li>
@@ -248,7 +284,7 @@ $events = $req->fetchAll();
               echo'
              
                 <tr>
-                <td>'.$f_name.' '.$m_name.''.$l_name.'</td>
+                <td>'.$f_name.' '.$m_name.' '.$l_name.'</td>
                 <td>'.$gmail.'</td>
                 <td>'.$gender.'</td>
                 <td>'.$age.'</td>
@@ -256,7 +292,7 @@ $events = $req->fetchAll();
                 <form method="POST">
                 <input type="hidden" name="id" value="'.$id.'">
                 <td><button type="submit" class="btn btn-primary btn-xs" name="btn-edit">EDIT</button>
-                <button type="submit" class="btn btn-danger btn-xs" name="btn-update-password">UPDATE PASSWORD</button></td>
+                <button type="submit" class="btn btn-danger btn-xs" name="btn-update-password">CHANGE PASSWORD</button></td>
                 </form>
                 </tr>
                
@@ -291,7 +327,75 @@ $events = $req->fetchAll();
               
        </div>
                </div>
+  <div class="modal fade" id="myModalfaq" role="dialog">
 
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add FAQ's</h4>
+          <?php
+          include "../connection.php";
+          $sql = "SELECT * FROM faq_tbl";
+          $run_query = mysqli_query($con,$sql);
+          mysqli_num_rows($run_query);
+          $true = mysqli_num_rows($run_query);
+          $false = $true + 1;
+          echo "Change the collapse number into $false";
+           ?>
+        </div>
+        <div class="modal-body">
+          <form method="POST">
+          <textarea id = "faq_long" name="faq_long" style="width:100%;height:100%;"></textarea>
+          <?php
+          include "../connection.php";
+          $sql = "SELECT * FROM faq_tbl";
+          $run_query = mysqli_query($con,$sql);
+          $true = mysqli_num_rows($run_query);
+          $false = $true + 1;
+          echo '<input type="text" name="collapse" value="'.$false.'">';
+           ?>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" id="add_faq">ADD FAQ's</button>
+          </form>
+        </div>
+      
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="myModalfaqcode" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">FAQ's Code</h4>
+        </div>
+        <div class="modal-body">
+      
+          <textarea style="width:100%;height:100%;">
+            <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="tryit_121.htm#collapse2"><span class="fa fa-arrow-circle-down"></span>&nbsp;<i>QUESTION HERE !!!</i></a>
+        </h4>
+      </div>
+      <div id="collapse2" class="panel-collapse collapse">
+        <div class="panel-body"><b>ANSWER HERE !!!</b></div>
+      </div>
+    </div>
+          </textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+<div id="msg_faq"></div>
     <div id="msg_print_receipt"></div>
    <div id="msgadd"></div>
 
@@ -338,7 +442,7 @@ document.querySelector('.sweet-5').onclick = function(){
         },
         function(isConfirm){
           if (isConfirm){
-            window.location.href="logout_admin.php";
+            window.location.href="../logout_admin.php";
 
           } 
           else {

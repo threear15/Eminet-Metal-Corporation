@@ -47,6 +47,7 @@ elseif(isset($_SESSION['uid2'])){
   		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
 		<link rel="stylesheet" href="main.css">
 		<link rel="stylesheet" type="text/css" href="pic.css">
+    <link rel="stylesheet" type="text/css" href="css/style1.css">
 
 
 		<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
@@ -85,43 +86,37 @@ elseif(isset($_SESSION['uid2'])){
 				<ul>
 					<li class="active">
 						<a href="#">
-							<span><i class="fa fa-user"></i></span>
+							<span><i class="fa fa-home"></i></span>
 							<span>Home</span>
 						</a>
 					</li>
 					<li>
             <a href="product.php">
-              <span><i class="fa fa-user"></i></span>
+              <span><i class="fa fa-shopping-bag"></i></span>
               <span>Product</span>
             </a>
           </li>
 					<li>
-						<a href="#">
-							<span><i class="fa fa-bar-chart"></i></span>
+						<a href="aboutus.php">
+							<span><i class="fa fa-info-circle"></i></span>
 							<span>About Us</span>
 						</a>
 					</li>
 					<li>
-						<a href="#">
-							<span><i class="fa fa-credit-card-alt"></i></span>
-							<span>Contact Us</span>
-						</a>
-					</li>
-					<li>
-						<a href="#">
-							<span><i class="fa fa-credit-card-alt"></i></span>
+						<a href="faq.php">
+							<span><i class="fa fa-question"></i></span>
 							<span>FAQ's</span>
 						</a>
 					</li>
 					<li>
 						<a href="#">
-							<span><i class="fa fa-credit-card-alt"></i></span>
+							<span><i class="fa fa-question-circle"></i></span>
 							<span>Terms & Conditions</span>
 						</a>
 					</li>
 	         <li>
             <a href="#" data-toggle="modal" data-target="#myModalforgot">
-              <span><i class="fa fa-credit-card-alt"></i></span>
+              <span><i class="fa fa-key"></i></span>
               <span>Forgot Password?</span>
             </a>
           </li>
@@ -668,6 +663,7 @@ elseif(isset($_SESSION['uid2'])){
               <form method="POST" role="form" class="contactForm">
                   <div class="form-group">
                     <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                    <input type="hidden" name="status" value="Pending">
                     <div class="validation"></div>
                   </div>
                   <div class="form-group">
@@ -679,7 +675,7 @@ elseif(isset($_SESSION['uid2'])){
                     <div class="validation"></div>
                   </div>
                   <div class="form-group">
-                    <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                    <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message" ></textarea>
                     <div class="validation"></div>
                   </div>
                   <div class="text-center"><button type="submit" id="send_message1">Send Message</button></div>

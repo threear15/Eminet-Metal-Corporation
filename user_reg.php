@@ -104,7 +104,7 @@ if(isset($_SESSION['uid'])){
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="faq.php">
 							<span><i class="fa fa-credit-card-alt"></i></span>
 							<span>FAQ's</span>
 						</a>

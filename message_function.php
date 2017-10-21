@@ -4,6 +4,7 @@ include "connection.php";
 $gmail1 = $_POST['gmail1'];
 $name = $_POST['name'];
 $message = $_POST['message'];
+$status = $_POST['status'];
 $emailValidation = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9]+(\.[a-z]{2,4})$/";
 if(empty($gmail1) || empty($name) || empty($message)){
 	echo "
@@ -35,7 +36,7 @@ if(empty($gmail1) || empty($name) || empty($message)){
 		exit();
 	}
 }
-$sql = "SELECT id FROM message WHERE gmail = '$gmail1' LIMIT 1";
+$sql = "SELECT id FROM message WHERE gmail = '$gmail1' AND status = 'Pending' LIMIT 1";
 	$check_query = mysqli_query($con,$sql);
 	$count_email = mysqli_num_rows($check_query);
 	if($count_email > 0){
@@ -43,7 +44,7 @@ $sql = "SELECT id FROM message WHERE gmail = '$gmail1' LIMIT 1";
 		<script>
 		        swal({
 		          title: 'Danger!!!',
-		          text: '$gmail1 was Already in used... Try another G-mail!!!',
+		          text: 'Sorry, Your previous message need to read by our administrator before you send another new message!!!',
 		          type: 'error',
 		          confirmButtonClass: 'btn-danger',
 		          confirmButtonText: 'Ok'
@@ -73,8 +74,8 @@ $sql = "SELECT id FROM message WHERE message = '$message' LIMIT 1";
 
 else{
 
-	$sql = "INSERT INTO `message` (`id`, `name`, `gmail`, `message`, `date`) 
-	VALUES (NULL, '$name', '$gmail1', '$message', CURRENT_TIMESTAMP)";
+	$sql = "INSERT INTO `message` (`id`, `status`, `name`, `gmail`, `message`, `date`) 
+	VALUES (NULL,'$status', '$name', '$gmail1', '$message', CURRENT_TIMESTAMP)";
 	$run_query = mysqli_query($con,$sql);
 	if($run_query){
 		echo "

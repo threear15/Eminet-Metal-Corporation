@@ -10,6 +10,8 @@ $(document).ready(function() {
 	get_admin_info();
 	get_admin_image();
 	count_admin();
+	count_messages();
+	get_faq();
 
 
 
@@ -17,6 +19,28 @@ $(document).ready(function() {
 		$('.side-nav').toggleClass('visible');
 	
 	});
+		$("#true_me").click(function(event){
+		event.preventDefault();
+		$.ajax({
+			url : "../action.php",
+			method : "POST",
+			data : {change:1},
+			success : function(data){
+				$("#change").html(data);
+			}
+		})
+	})
+	$("#add_faq").click(function(event){
+	event.preventDefault();
+	$.ajax({
+		url : "add_faq_function.php",
+		method : "POST",
+		data : $("form").serialize(),
+		success : function(data){
+			$("#msg_faq").html(data);
+		}
+	})
+})
 	
 $("#delete").click(function(event){
 			event.preventDefault();
@@ -63,11 +87,26 @@ function cat(){
 $("#login_admin1").click(function(event){
 	event.preventDefault();
 	var username = $("#user").val();
+	var role = $("#role").val();
 	var password = $("#pass").val();
 	$.ajax({
 		url : "../login.php",
 		method : "POST",
-		data : {login_admin:1,username:username,password:password},
+		data : {login_admin:1,username:username,role:role,password:password},
+		success : function(data){
+			$("#msg_login_admin").html(data);
+		}
+	})	
+})
+$("#login_admin11").click(function(event){
+	event.preventDefault();
+	var username = $("#user").val();
+	var role = $("#role").val();
+	var password = $("#pass").val();
+	$.ajax({
+		url : "../login.php",
+		method : "POST",
+		data : {login_admin1:1,username:username,role:role,password:password},
 		success : function(data){
 			$("#msg_login_admin").html(data);
 		}
@@ -333,6 +372,16 @@ $("#send_message1").click(function(event){
 				}
 			})
 		}
+		function count_messages(){
+			$.ajax({
+				url : "../action.php",
+				method : "POST",
+				data : {count_messages:1},
+				success : function(data){
+					$("#badge_messages").html(data);
+				}
+			})
+		}
 		function cart_checkout(){
 			$.ajax({
 				url : "../action.php",
@@ -403,6 +452,55 @@ $("#send_message1").click(function(event){
 				}
 			})
 		})
-		
+	$("#update_all").click(function(event){
+		var pid = $(this).attr("update_id");
+			var qty = $("#qty-"+pid).val();
+			var size = $("#size1-"+pid).val();
+			var price = $("#price-"+pid).val();
+			var color = $("#color-"+pid).val();
+			var total = $("#total-"+pid).val();
+			$.ajax({
+				url : "../action.php",
+				method : "POST",
+				data : {update_all_from_cart:1,update_id:pid,qty:qty,price:price,color:color,size:size,total:total},
+				success : function(data){
+					$("#msgupdate").html(data);
+					cart_checkout();
+				}
+			})
+	})
+	$("body").delegate(".read","click",function(){
+		var id = $(this).attr('id');
+		$.ajax({
+			url : "../action.php",
+			method : "POST",
+			data : {read:1,id:id},
+			success : function(data){
+				window.location.href="read_message.php";
+			}
+		})
+	})
+$("#add_customer").click(function(event){
+	event.preventDefault();
+	$.ajax({
+		url : "add_customer_function.php",
+		method : "POST",
+		data : $("form").serialize(),
+		success : function(data){
+			$("#add_customer_msg").html(data);
+		}
+	})
+})
+function get_faq(){
+			$.ajax({
+				url : "../action.php",
+				method : "POST",
+				data : {get_faq:1},
+				success : function(data){
+					$("#get_faq_msg1").html(data);
+				}
+			})
+		}
+
 });
 

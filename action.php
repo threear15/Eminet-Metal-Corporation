@@ -96,6 +96,12 @@ if(isset($_POST['cart_count'])){
 	$run_query = mysqli_query($con,$sql);
 	echo mysqli_num_rows($run_query);
 }
+if(isset($_POST['approve_badge'])){
+	$uid = $_SESSION['uid'];
+	$sql = "SELECT * FROM cart_pending WHERE user_id ='$uid'";
+	$run_query = mysqli_query($con,$sql);
+	echo mysqli_num_rows($run_query);
+}
 if(isset($_POST['cart_count_admin'])){
 	$sql = "SELECT * FROM product";
 	$run_query = mysqli_query($con,$sql);
@@ -113,6 +119,11 @@ if(isset($_POST['count_superadmin'])){
 }
 if(isset($_POST['count_admin'])){
 	$sql = "SELECT * FROM super_admin WHERE role ='Admin'";
+	$run_query = mysqli_query($con,$sql);
+	echo mysqli_num_rows($run_query);
+}
+if(isset($_POST['count_messages'])){
+	$sql = "SELECT * FROM message WHERE status ='Pending'";
 	$run_query = mysqli_query($con,$sql);
 	echo mysqli_num_rows($run_query);
 }
@@ -148,7 +159,7 @@ if(isset($_POST['cart_checkout'])){
 			<center><div class='row'>
                         <div class='col-md-1'><b>$p_code</b></div>
                         <div class='col-md-1'><b>$p_name</b></div>
-                        <div class='col-md-1'><b><img src='../images/standard/$p_image' style='width:80px;height:90px;'></b></div>
+                        <div class='col-md-1'><b><img src='../$p_image' style='width:80px;height:90px;'></b></div>
                         <div class='col-md-2'><input type='text' class=' form-control size1' pid='$p_id' id='size1-$p_id' value='$p_size' disabled></div>
                         <div class='col-md-1'><input type='number' min='1' class='form-control qty' pid='$p_id' id='qty-$p_id' value='$p_qty'></div>
                         <div class='col-md-1'><input type='text' class='form-control price' pid='$p_id' id='price-$p_id' value='$p_price' disabled></div>
@@ -174,8 +185,20 @@ if(isset($_POST['cart_checkout'])){
 			<b style='padding-left:80%;'>Total Price &#8369;$total_amt.00</b>
 			</div>
 		";
-	}
-	echo '
+	}if($total_amt <= 2999){
+		$min_price = 3000;
+		$sum = $min_price - $total_amt;
+		echo"<script>
+		        swal({
+		          title: 'Warning!!!',
+		          text: 'You Need to avail Minimum Price, Which is Php3,000.00 Above!!!You need to add Php $sum.00',
+		          type: 'warning',
+		          confirmButtonClass: 'btn-warning',
+		          confirmButtonText: 'Ok'
+		        });
+			</script>";exit();
+	}else{
+		echo '
 		
 				<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
 				  <input type="hidden" name="cmd" value="_cart">
@@ -211,6 +234,24 @@ if(isset($_POST['cart_checkout'])){
 					src="../images/pic.png" alt="PayPal Checkout"
 					alt="PayPal - The safer, easier way to pay online">
 				</form>';
+
+				echo'
+				<div class="row">
+				<div class="col-md-4">
+				<div class="dropdown">
+				  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Other Payment Method
+				  <span class="caret"></span></button>
+				  <ul class="dropdown-menu">
+				    <li><a href="cod.php">Cash On Delivery</a></li>
+				    <li><a href="cheque.php">Cheque</a></li>
+				    <li><a href="palawan_express.php">Palawan Express</a></li>
+				  </ul>
+				</div>
+				</div>
+</div>
+				';
+	}
+	
 }
 if(isset($_POST['remove_from_cart'])){
 	$p_id = $_POST['remove_id'];
@@ -230,7 +271,7 @@ if(isset($_POST['remove_from_cart'])){
         }, function() {
             window.location = '../userpage/cart_pending.php';
         });
-    }, 1);
+    }, 1000);
 			</script>
 		";
 	}
@@ -271,7 +312,7 @@ if(isset($_POST['update_from_cart'])){
         }, function() {
             window.location = '../userpage/cart_pending.php';
         });
-    }, 1);
+    }, 1000);
 			</script>
 		";
 	}
@@ -402,6 +443,80 @@ if(isset($_POST["addwidar"])){
 			</script>
 	";
 }
+if(isset($_POST['read'])){
+$id = $_POST['id'];
+$_SESSION['read_id'] = $id;
+$id_read = $_SESSION['read_id'];
+$sql = "SELECT * FROM message WHERE id ='$id_read'";
+$run_query = mysqli_query($con,$sql);
+while ($row = mysqli_fetch_array($run_query)){
+$id = $row['id'];
+$message = $row['message'];
+echo'
+	
+';
+}
+}
+if(isset($_POST['get_faq'])){
+	$sql = "SELECT * FROM faq_tbl";
+	$run_query = mysqli_query($con,$sql);
+	while($row = mysqli_fetch_array($run_query)){
+		$id = $row['id'];
+		$question = $row['question'];
+	echo'
+	'.$question.'
+	';
+	}
+}
+if(isset($_POST['change'])){
+	$uid = $_SESSION['uid'];
+	$sql = "SELECT * FROM cart_approved WHERE user_id = '$uid'";
+	$run_query = mysqli_query($con,$sql);
+	$count = mysqli_num_rows($run_query);
+	if($count = true){
+		while($row =mysqli_fetch_array($run_query)){
+		$id = $row['id'];
+		$p_id = $row['p_id'];
+		$p_qty = $row['product_quantity'];
+		
+		$sql1 = "SELECT * FROM product WHERE product_id = '$p_id'";
+		$run_query1 = mysqli_query($con,$sql1);
+		$count2 = mysqli_num_rows($run_query1);
+		if($count2 = true){
+			while($row =mysqli_fetch_array($run_query1)){
+		$p_id = $row['product_id'];
+		$p_stocks = $row['product_stocks'];
+		$p_true = $p_stocks - $p_qty;
+		
+		$sql2 = "UPDATE product SET product_stocks = '$p_true' WHERE product_id ='$p_id'";
+		$run_query2 = mysqli_query($con,$sql2);
+		if($run_query2){
+			$sql3 = "DELETE FROM cart_approved WHERE user_id = '$uid'";
+			$run_query3 = mysqli_query($con,$sql3);
+			if($run_query3){
+				echo"
+			<script>
+			
+        
+        setTimeout(function() {
+        swal({
+            title: 'Product Updated',
+            text: '',
+            type: 'success'
+        }, function() {
 
+        });
+    }, 1000);
+			</script>
+			";
+			}
+			
+		}
+	}
+	}
+
+	}
+	}
+}
 ?>
 

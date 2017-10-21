@@ -88,6 +88,60 @@ function edit_view() {
 		
 
 	}
+	function message_view() {
+	include "../connection.php";
+
+		GLOBAL $con;
+		$id_read = $_SESSION['read_id'];
+		$open =mysqli_query($con,"SELECT * FROM message WHERE id=".$_SESSION['read_id']);
+		while ($row = mysqli_fetch_assoc($open)) {
+			$message = $row['message'];
+	
+			echo "
+
+				<form method='POST'>
+				<div class='row'>
+				<div class='col-md-12'>
+				<textarea class='form-control' placeholder='$message' style='height:500px;'disabled></textarea>
+				</div>
+				</div>
+				<div><br></div>
+				<form method='POST'>
+					<input type='hidden' name='id' value='".$row['id']."'>
+					<input type='hidden' name='status' value='Approved'>
+					<button type='submit' class='btn btn-success' name='btn-read'>READ</button>
+					
+					</form>
+				</td>
+			";	
+		}
+
+		if (isset($_POST['btn-read'])) { 
+
+			$id = $_POST['id'];
+			$status = $_POST['status'];
+
+			$query = mysqli_query($con,"UPDATE message SET status='$status' WHERE id ='$id'");
+			echo"
+                    <script>
+			
+        
+        setTimeout(function() {
+        swal({
+            title: 'Successfully Read',
+            text: '',
+            type: 'success'
+        }, function() {
+            window.location = 'messages.php';
+        });
+    }, 1);
+			</script>
+                    ";
+
+		}
+		
+
+	}
 	function password_customer(){
 		GLOBAL $con;
 		$id = $_SESSION['edit_id'];
@@ -249,13 +303,16 @@ function edit_superadmin() {
 				</div>
 				<div><br></div>
 				<div class='row'>
-					<div class='col-md-12'>
+				<div class='col-md-3'></div>
+					<div class='col-md-6'><label>Username</label>
 						<input type='text' class='form-control' name='user' value='".$row['username']."'>
 					</div>
+				<div class='col-md-3'></div>
 				</div>
 				<div><br></div>
 				<form method='POST'>
-					<input type='text' name='id' value='".$row['id']."'>
+				<input type='hidden' name='id' value='$id'>
+					<input type='file' name='image' id='p_image' class='form-control'>
 					<button type='submit' class='btn btn-success' name='btn-update1' value='update'>UPDATE</button>
 					
 					</form>
@@ -273,11 +330,12 @@ function edit_superadmin() {
 			$gender = $_POST['gender'];
 			$age = $_POST['age'];
 			$user = $_POST['user'];
+			$image = $_POST['image'];
 			
 
 
 			$query = mysqli_query($con,"UPDATE super_admin SET f_name='$f_name',m_name='$m_name',l_name='$l_name' 
-									,role='$role',gender='$gender',age='$age',username='$user' WHERE id ='$id'");
+									,role='$role',gender='$gender',age='$age',username='$user',image ='$image' WHERE id ='$id'");
 			echo"
                     <script>
 			
@@ -389,13 +447,16 @@ function edit_superadmin() {
 				</div>
 				<div><br></div>
 				<div class='row'>
-					<div class='col-md-12'>
-						<input type='text' class='form-control' name='user' value='".$row['username']."'>
+				<div class='col-md-3'></div>
+					<div class='col-md-6'><label>Username</label>
+						<input type='text' class='form-control' name='username' value='".$row['username']."'>
 					</div>
+				<div class='col-md-3'></div>
 				</div>
 				<div><br></div>
 				<form method='POST'>
-					<input type='text' name='id' value='".$row['id']."'>
+					<input type='hidden' name='id' value='".$row['id']."'>
+					<input type='file' name='image' id='p_image' class='form-control'>
 					<button type='submit' class='btn btn-success' name='btn-update1' value='update'>UPDATE</button>
 					
 					</form>
@@ -412,12 +473,13 @@ function edit_superadmin() {
 			$role = $_POST['role'];
 			$gender = $_POST['gender'];
 			$age = $_POST['age'];
-			$user = $_POST['user'];
+			$user = $_POST['username'];
+			$image = $_POST['image'];
 			
 
 
 			$query = mysqli_query($con,"UPDATE super_admin SET f_name='$f_name',m_name='$m_name',l_name='$l_name' 
-									,role='$role',gender='$gender',age='$age',username='user' WHERE id ='$id'");
+									,role='$role',gender='$gender',age='$age',username='$user',image = '$image' WHERE id ='$id'");
 			echo"
                     <script>
 			
@@ -500,4 +562,47 @@ function edit_superadmin() {
 			
 		}
 	}
+function edit_view_faq(){
+	GLOBAL $con;
+	$id = $_SESSION['edit_id'];
+	$sql = "SELECT * FROM faq_tbl WHERE id ='$id'";
+	$run_query = mysqli_query($con,$sql);
+	while($row = mysqli_fetch_array($run_query)){
+		$id = $row['id'];
+		$question = $row['question'];
+		echo"
+			<form method='POST'>
+			<textarea style='width:100%;height:100%;' name='textarea'>
+			$question
+			</textarea>
+			<form method='POST'>
+			<input type='hidden' name='id' value='".$row['id']."'>
+			<input type='submit' class='btn btn-success' name='btn-update' value='UPDATE'>
+			</form>
+		";
+	}if(isset($_POST['btn-update'])){
+		$id = $_POST['id'];
+		$question = $_POST['textarea'];
+		$sql = "UPDATE faq_tbl SET question ='$question' WHERE id = '$id'";
+		$run_query = mysqli_query($con,$sql);
+		if($run_query){
+			echo"
+
+			<script>
+			
+        
+        setTimeout(function() {
+        swal({
+            title: 'Successfully Updated',
+            text: '',
+            type: 'success'
+        }, function() {
+            window.location = 'edit_faq.php';
+        });
+    }, 1);
+			</script>
+			";
+		}
+	}
+}
 ?>

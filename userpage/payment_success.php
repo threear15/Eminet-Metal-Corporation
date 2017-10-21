@@ -185,7 +185,7 @@ $cm = $_GET['cm'];
                 <label>Total Amount you paid</label>
               </div>
             <div class="col-md-6">
-                <input type="text" class="form-control" name="amount4" id="amount4" value="<?php echo "Php", $amt;?>" disabled/>
+                <input type="text" class="form-control" name="amount4" id="amount4" value="<?php echo $amt;?>" disabled/>
             </div>
             </div>
             <div class="row">

@@ -122,9 +122,10 @@ function myFunction() {
     <td>50</td>
   </tr>-->
 </table>
+<div id="change"> </div>
 <br>
-<button class="btn btn-success btn-xs"onclick="myFunction()">Print My Receipt</button>
-
-<a href="#" id="delete_receipt">Click Here If You are Done</a>
+<button class="btn btn-success btn-xs" onclick="myFunction()">Print My Receipt</button>
+<br><br>
+<button id="true_me" class='btn btn-success btn-xs'>CLICK HERE IF YOU ARE DONE</button>
 </body>
 </html>

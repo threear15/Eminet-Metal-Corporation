@@ -58,6 +58,7 @@ function CreateRandomCode() {
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="../main.css">
     <link rel="stylesheet" type="text/css" href="../pic.css">
+    <link rel="stylesheet" type="text/css" href="../css/style1.css">
 
 <script type="text/javascript" src="../js/js/jquery-1.11.2.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>

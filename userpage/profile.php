@@ -76,7 +76,7 @@ if(!isset($_SESSION['uid'])){
         <ul>
           <li class="active">
             <a href="../index.php">
-              <span><i class="fa fa-user"></i></span>
+              <span><i class="fa fa-home"></i></span>
               <span>Home</span>
             </a>
           </li>
@@ -100,44 +100,38 @@ if(!isset($_SESSION['uid'])){
           </li>-->
           <li>
             <a href="#">
-              <span><i class="fa fa-bar-chart"></i></span>
+              <span><i class="fa fa-info-circle"></i></span>
               <span>About Us</span>
             </a>
           </li>
           <li>
-            <a href="#">
-              <span><i class="fa fa-credit-card-alt"></i></span>
-              <span>Contact Us</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <span><i class="fa fa-credit-card-alt"></i></span>
+            <a href="faq.php">
+              <span><i class="fa fa-question"></i></span>
               <span>FAQ's</span>
             </a>
           </li>
           <li>
             <a href="#">
-              <span><i class="fa fa-credit-card-alt"></i></span>
+              <span><i class="fa fa-question-circle"></i></span>
               <span>Terms & Conditions</span>
             </a>
           </li>
           <li>
             <a href="cart_pending.php" id="cart_container">
-              <span><i class="fa fa-credit-card-alt"></i></span>
+              <span><i class="fa fa-shopping-cart"></i></span>
               <span>Cart&nbsp;<span class="badge" id="badge2">0</span></span>
             </a>
           </li>
           <li>
             <input type="hidden" id="print_me" class="form-control" value="<?php echo $_SESSION['uid'];?>">
             <a href="#" id="print_receipt">
-              <span><i class="fa fa-credit-card-alt"></i></span>
+              <span><i class="fa fa-print"></i></span>
               <span>Print Receipt</span>
             </a>
           </li>
           <li>
             <a href="#" class="sweet-5" onclick="_gaq.push(['_trackEvent', 'example', 'try', 'sweet-5']);" id="logout_me">
-              <span><i class="fa fa-credit-card-alt"></i></span>
+              <span><i class="fa fa-sign-out"></i></span>
               <span>Logout</span>
             </a>
           </li>
@@ -215,7 +209,7 @@ if(!isset($_SESSION['uid'])){
                               <tr>
                                 <td style='padding-top:40px;padding-left:20px;'><b>$p_code</b></td>
                                 <td style='padding-top:40px;padding-left:20px;'><b>$p_name</b></td>                                            
-                                <td><img src='../images/standard/$p_image' style='width:115px;height:90px;'></td>
+                                <td><img src='../$p_image' style='width:115px;height:90px;'></td>
                                 <td style='padding-top:40px;padding-left:20px;'><b>$p_headstyle</b></td> 
                                 <td style='padding-top:40px;padding-left:20px;'>$p_size</td>
                                 <td style='padding-top:40px;padding-left:20px;'><b>$p_pieces</b></td>
@@ -229,46 +223,7 @@ if(!isset($_SESSION['uid'])){
                               }
                                   }
                                 ?>
-                                <div><?php 
-                                  include "../connection.php";
-                                  
-                                  $sql = "SELECT MONTHNAME(date1) as month, YEAR(date1) as year, DAY(date1) as day, LAST_DAY(date1) as last, SUM(product_price) AS total FROM product GROUP BY YEAR(date1), MONTH(date1)";
-                                  $run_query = mysqli_query($con,$sql);
-                                  if(mysqli_num_rows($run_query) > 0){
-                                    while($row=mysqli_fetch_array($run_query)){
-                                      $total = $row['total'];
-                                      $month = $row['month'];
-                                      $year = $row['year'];
-                                      $day = $row['day'];
-                                      $last = $row['last'];
-                                      
-                                      
-                                      echo"
-                                      <div><b><i>Total Sales of the Month</i></b>$month $day, $year ----->&#8369;&nbsp;$total-----> $last</div>
-                                      ";
-                                    }
-                                    
-                                  }
-                                ?></div>
-                                <div><?php 
-                                  include "../connection.php";
-                                  
-                                  $sql = "SELECT YEAR(date1) as year, SUM(product_price) AS total FROM product GROUP BY YEAR(date1)";
-                                  $run_query = mysqli_query($con,$sql);
-                                  if(mysqli_num_rows($run_query) > 0){
-                                    while($row=mysqli_fetch_array($run_query)){
-                                      $year = $row['year'];
-                                      $total = $row['total'];
-
-                                      
-                                      
-                                      echo"
-                                      <div><b><i>Total Sales of the Year</i></b> $year &#8369;&nbsp;$total</div>
-                                      ";
-                                    }
-                                    
-                                  }
-                                ?></div>
+                                <div></div>
                           </tbody>
                   </table>
               </form>

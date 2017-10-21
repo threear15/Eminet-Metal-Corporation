@@ -44,6 +44,7 @@ $events = $req->fetchAll();
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="../main.css">
     <link rel="stylesheet" type="text/css" href="../pic.css">
+    <link rel="stylesheet" type="text/css" href="../css/style1.css">
 
 <script type="text/javascript" src="../js/js/jquery-1.11.2.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
@@ -129,8 +130,8 @@ $events = $req->fetchAll();
             <ul>
                 
             <li class="dropdown-content" style="width:180px;">
-               <a href="tryit_183.htm#">Every Month</a>
-               <a href="tryit_183.htm#">Every Year</a>
+               <a href="sales_month.php">Every Month</a>
+               <a href="sales_year.php">Every Year</a>
               </li>
             </ul>
           </li>

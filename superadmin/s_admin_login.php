@@ -2,8 +2,10 @@
 session_start();
 if(isset($_SESSION['uid_admin'])){
 	header("location:index.php");
-}if(isset($_SESSION['uid'])){
+}if(isset($_SESSION['uid1'])){
   header("location:../userpage/profile.php");
+}if(isset($_SESSION['uid_admin1'])){
+  header("location:index.php");
 }
 ?>
 <html>
@@ -33,6 +35,7 @@ if(isset($_SESSION['uid_admin'])){
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="../main.css">
     <link rel="stylesheet" type="text/css" href="../pic.css">
+    <link rel="stylesheet" type="text/css" href="../css/style1.css">
 
 <script type="text/javascript" src="../js/js/jquery-1.11.2.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
@@ -103,6 +106,7 @@ input[type="password"] {
 			  <hr class="colorgraph"><br>
 			  
 			  <input type="text" class="form-control"  placeholder="username" id="user" autofocus/>
+        <input type="hidden" class="form-control"  placeholder="username" id="role" value="Super Admin"/>
 			  <br>
 			  <input type="password" class="form-control"  placeholder="password"  id="pass"/>     		  
 			 

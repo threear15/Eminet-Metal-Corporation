@@ -39,10 +39,13 @@ if(isset($_POST['get_admin_image'])){
 		$age = $row['age'];
 		$gender = $row['gender'];
 		$role = $row['role'];
+		$image = $row['image'];
 		if($row['gender'] == 'Male'){
 			$admin_image = '<img src="../images/avatar3.png" style="width:250px;height:230px;padding-top:5px;padding-left:5px;">';
 		}else{
 			$admin_image = '<img src="../images/avatar4.png" style="width:250px;height:230px;padding-top:5px;padding-left:5px;">';
+		}if(strlen($image) >= 1){
+			$admin_image =  '<img src="../images/'.$image.'" style="width:250px;height:230px;padding-top:5px;padding-left:5px;">';
 		}
 		echo '
 				<div class="col-md-3">

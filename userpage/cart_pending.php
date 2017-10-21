@@ -75,7 +75,7 @@ if(!isset($_SESSION['uid'])){
         <ul>
           <li class="active">
             <a href="../index.php">
-              <span><i class="fa fa-user"></i></span>
+              <span><i class="fa fa-home"></i></span>
               <span>Home</span>
             </a>
           </li>
@@ -99,37 +99,38 @@ if(!isset($_SESSION['uid'])){
           </li>-->
           <li>
             <a href="#">
-              <span><i class="fa fa-bar-chart"></i></span>
+              <span><i class="fa fa-info-circle"></i></span>
               <span>About Us</span>
             </a>
           </li>
           <li>
-            <a href="#">
-              <span><i class="fa fa-credit-card-alt"></i></span>
-              <span>Contact Us</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <span><i class="fa fa-credit-card-alt"></i></span>
+            <a href="faq.php">
+              <span><i class="fa fa-question"></i></span>
               <span>FAQ's</span>
             </a>
           </li>
           <li>
             <a href="#">
-              <span><i class="fa fa-credit-card-alt"></i></span>
+              <span><i class="fa fa-question-circle"></i></span>
               <span>Terms & Conditions</span>
             </a>
           </li>
           <li>
-            <a href="#" id="cart_container">
-              <span><i class="fa fa-credit-card-alt"></i></span>
+            <a href="cart_pending.php" id="cart_container">
+              <span><i class="fa fa-shopping-cart"></i></span>
               <span>Cart&nbsp;<span class="badge" id="badge2">0</span></span>
             </a>
           </li>
           <li>
-            <a href="#" class="sweet-5" onclick="_gaq.push(['_trackEvent', 'example', 'try', 'sweet-5']);">
-              <span><i class="fa fa-credit-card-alt"></i></span>
+            <input type="hidden" id="print_me" class="form-control" value="<?php echo $_SESSION['uid'];?>">
+            <a href="#" id="print_receipt">
+              <span><i class="fa fa-print"></i></span>
+              <span>Print Receipt</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="sweet-5" onclick="_gaq.push(['_trackEvent', 'example', 'try', 'sweet-5']);" id="logout_me">
+              <span><i class="fa fa-sign-out"></i></span>
               <span>Logout</span>
             </a>
           </li>
@@ -189,6 +190,7 @@ if(!isset($_SESSION['uid'])){
               </div>
             </div>
        </div>
+       <div id="msg_print_receipt"></div>
           &nbsp;<div id="msgremove"></div>
         &nbsp;<div id="msgupdate"></div>
    <div id="msgadd"></div>

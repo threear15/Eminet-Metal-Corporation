@@ -28,6 +28,7 @@ if(isset($_SESSION['uid'])){
       <link href="lib/owlcarousel/owl.carousel.min.css" rel="stylesheet">
       <link href="lib/owlcarousel/owl.theme.min.css" rel="stylesheet">
       <link href="lib/owlcarousel/owl.transitions.min.css" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="css/style.css">
   <!-- Ionicons -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="main.css">
@@ -63,7 +64,7 @@ if(isset($_SESSION['uid'])){
             
         </nav>
     </div>
-    <div class="side-nav" id="reg_sidenav">
+    <div class="side-nav" id="reg_nav">
       <div class="logo">
         <i class="fa fa-tachometer"></i>
         <span>Eminent</span>
@@ -72,41 +73,41 @@ if(isset($_SESSION['uid'])){
         <ul>
           <li class="active">
             <a href="index.php">
-              <span><i class="fa fa-user"></i></span>
+              <span><i class="fa fa-home"></i></span>
               <span>Home</span>
             </a>
           </li>
           <li>
             <a href="product.php">
-              <span><i class="fa fa-user"></i></span>
+              <span><i class="fa fa-shopping-bag"></i></span>
               <span>Product</span>
             </a>
           </li>
           <li>
-            <a href="#">
-              <span><i class="fa fa-bar-chart"></i></span>
+            <a href="aboutus.php">
+              <span><i class="fa fa-info-circle"></i></span>
               <span>About Us</span>
             </a>
           </li>
           <li>
-            <a href="#">
-              <span><i class="fa fa-credit-card-alt"></i></span>
-              <span>Contact Us</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <span><i class="fa fa-credit-card-alt"></i></span>
+            <a href="faq.php">
+              <span><i class="fa fa-question"></i></span>
               <span>FAQ's</span>
             </a>
           </li>
           <li>
             <a href="#">
-              <span><i class="fa fa-credit-card-alt"></i></span>
+              <span><i class="fa fa-question-circle"></i></span>
               <span>Terms & Conditions</span>
             </a>
           </li>
-  
+           <li>
+            <a href="#" data-toggle="modal" data-target="#myModalforgot">
+              <span><i class="fa fa-key"></i></span>
+              <span>Forgot Password?</span>
+            </a>
+          </li>
+          
         </ul>
       </nav>
     </div>
@@ -196,46 +197,8 @@ if(isset($_SESSION['uid'])){
                               }
                                   }
                                 ?>
-                                <div><?php 
-                                  include "connection.php";
-                                  
-                                  $sql = "SELECT MONTHNAME(date1) as month, YEAR(date1) as year, DAY(date1) as day, LAST_DAY(date1) as last, SUM(product_price) AS total FROM product GROUP BY YEAR(date1), MONTH(date1)";
-                                  $run_query = mysqli_query($con,$sql);
-                                  if(mysqli_num_rows($run_query) > 0){
-                                    while($row=mysqli_fetch_array($run_query)){
-                                      $total = $row['total'];
-                                      $month = $row['month'];
-                                      $year = $row['year'];
-                                      $day = $row['day'];
-                                      $last = $row['last'];
-                                      
-                                      
-                                      echo"
-                                      <div><b><i>Total Sales of the Month</i></b>$month $day, $year ----->&#8369;&nbsp;$total-----> $last</div>
-                                      ";
-                                    }
-                                    
-                                  }
-                                ?></div>
-                                <div><?php 
-                                  include "connection.php";
-                                  
-                                  $sql = "SELECT YEAR(date1) as year, SUM(product_price) AS total FROM product GROUP BY YEAR(date1)";
-                                  $run_query = mysqli_query($con,$sql);
-                                  if(mysqli_num_rows($run_query) > 0){
-                                    while($row=mysqli_fetch_array($run_query)){
-                                      $year = $row['year'];
-                                      $total = $row['total'];
-
-                                      
-                                      
-                                      echo"
-                                      <div><b><i>Total Sales of the Year</i></b> $year &#8369;&nbsp;$total</div>
-                                      ";
-                                    }
-                                    
-                                  }
-                                ?></div>
+                                <div></div>
+                                <div></div>
                           </tbody>
                   </table>
                        </div>
@@ -300,8 +263,53 @@ if(isset($_SESSION['uid'])){
 
   </div>
 </div>
+<div id="myModalforgot" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+<div class="modal-body">
+         <div class="row">
+          <div class="col-sm-12">
+            <div id="msglog"></div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  Forgot Password<a href="#" class="fa fa-fw fa-times" data-dismiss="modal" style="float:right;"></a>
+                </h3>
+              </div>
+              <div class="panel-body">
+                
+                  <fieldset>
+                    <div class="form-group">
+                      <div class="input-group input-group-lg">
+                        <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+                        <input type="gmail" class="form-control" id="gmailforgot"  placeholder="Gmail">
+                      </div>
+                    </div>
+                    
+                    <input class="btn btn-lg btn-primary btn-block" type="submit" id="submit" value="Submit" data-toggle="modal" data-target="#mymodalsubmit">
+                  </fieldset>
+               
+               
+                <div class="credits">
+                  <!-- 
+                    All the links in the footer should remain intact. 
+                    You can delete the links only if you purchased the pro version.
+                    Licensing information: https://bootstrapmade.com/license/
+                    Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Flexor
+                  -->
+                  <a href="#">Eminent Metal Corporation</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- Modal content-->
 
-  
+
+  </div>
+</div>
+
+  <div id="msgforgot"></div>
       <div id="msg"></div>
 <a href="#top" class="scrolltop">Top</a> 
 <script>
